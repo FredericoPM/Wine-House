@@ -29,7 +29,10 @@ class ListCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(vinho.nome, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                      Text(vinho.tipo, style: TextStyle(color: Colors.grey, fontSize: 16)),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(vinho.tipo, style: TextStyle(color: Colors.grey, fontSize: 15)),
                     ],
                   ),
                 ],

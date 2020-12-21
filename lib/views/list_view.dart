@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../controls/list_controller.dart';
 import '../models/vinho.dart';
 import '../widgets/listCard_widget.dart';
-import 'wineForm_view.dart';
 import '../widgets/textField.dart';
+import 'wineForm_view.dart';
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
@@ -10,24 +11,13 @@ class Main_list extends StatefulWidget {
 
 class _Main_listState extends State<Main_list> {
   TextEditingController _searchController = TextEditingController();
-  List<Vinho> vinhos = [
-    Vinho(
-      nome: "Taylor’s Fine Tawny",
-      ano: 1970,
-      pais: "Portugal",
-      regiao: "douro",
-      produtor: "Taylor's",
-      uvas: [
-        "Tempranillo (Tinta Roriz / Aragonez)",
-        "Tinta Barroca",
-        "Tinto Cão",
-        "Touriga Franca"
-      ],
-      tipo: "Porto",
-      teorAlcolico: 20,
-      volume: 750
-    ),
-  ];
+  ListController controller = ListController();
+  List<Vinho> vinhos;
+  @override
+  void initState() {
+    vinhos = controller.vinhos;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
