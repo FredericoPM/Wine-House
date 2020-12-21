@@ -39,8 +39,7 @@ class _WineFormState extends State<WineForm> {
         errorText: "Por favor preencha pais de origem",
         icon: Icon(Icons.place_outlined, color: Colors.grey[700]),
       ),
-      /*
-      TextFild(
+      /*TextFild(
           controller: _teorController,
           hintText: "Teor alcolico",
           errorText: "Por favor preencha o teor alcolico",
@@ -48,8 +47,7 @@ class _WineFormState extends State<WineForm> {
             backgroundColor: Colors.transparent,
             child: Text("%", style: TextStyle(color: Colors.grey[700], fontSize: 25),),
           )
-      ),
-       */
+      ),*/
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
