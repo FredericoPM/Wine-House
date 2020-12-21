@@ -56,7 +56,7 @@ class _WineFormState extends State<WineForm> {
           RaisedButton(
               color: Color(0xFFf88a29),
               child: Container(
-                width: 100,
+                width: 110,
                 child: Center(
                   child: Text("Cancelar", style: TextStyle(color: Colors.white)),
                 ),
@@ -66,7 +66,7 @@ class _WineFormState extends State<WineForm> {
           RaisedButton(
               color: Color(0xFF7fbb4a),
               child: Container(
-                width: 100,
+                width: 110,
                 child: Center(
                   child: Text("Salvar", style: TextStyle(color: Colors.white)),
                 ),
