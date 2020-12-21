@@ -31,7 +31,10 @@ class _TextFildState extends State<TextFild> {
                 else
                   return null;
               },
-              onChanged: (text) => onChanged(text),
+              onChanged: (text) => {
+                if(onChanged != null)
+                  onChanged(text)
+              },
               decoration: InputDecoration(
                 hintText: hintText,
                 prefixIcon: icon,
@@ -39,7 +42,8 @@ class _TextFildState extends State<TextFild> {
                   icon: Icon(Icons.clear, color: Colors.grey[700]),
                   onPressed: () {
                     setState(() { controller.text = ""; });
-                    onChanged(controller.text);
+                    if(onChanged != null)
+                      onChanged(controller.text);
                   },
                 ) : null,
                 filled: true,

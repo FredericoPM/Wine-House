@@ -86,12 +86,7 @@ class _Main_listState extends State<Main_list> {
                             color: Color(0xFF942641),
                           ),
                           onPressed: (){
-                            showModalBottomSheet<void>(
-                              context: context,
-                              builder: (context) {
-                                return WineForm();
-                              },
-                            );
+
                           }
                       ),
                       IconButton(
@@ -100,7 +95,14 @@ class _Main_listState extends State<Main_list> {
                             size: 27,
                             color: Color(0xFF942641),
                           ),
-                          onPressed: (){}
+                          onPressed: (){
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (context) {
+                                return WineForm();
+                              },
+                            );
+                          }
                       )
                     ],
                   ),
