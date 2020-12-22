@@ -1,52 +1,37 @@
 class Vinho {
   String nome;
-  int ano;
-  String pais;
-  String regiao;
-  String produtor;
-  List<String> uvas;
   String tipo;
-  int teorAlcolico;
-  int volume;
+  int idade;
+  String pais;
+  String localizacao;
+
   bool favorito = false;
 
   Vinho({
     this.nome,
-    this.ano,
+    this.idade,
     this.pais,
-    this.regiao,
-    this.produtor,
-    this.uvas,
     this.tipo,
-    this.teorAlcolico,
-    this.volume
+    this.localizacao,
   });
 
   Vinho.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
-    ano = json['ano'];
+    idade = json['idade'];
     pais = json['pais'];
-    regiao = json['regiao'];
-    produtor = json['produtor'];
-    uvas = json['uvas'].cast<String>();
     tipo = json['tipo'];
-    teorAlcolico = json['teorAlcolico'];
-    volume = json['volume'];
     favorito = json['favorito'];
+    localizacao = json['localizacao'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['nome'] = this.nome;
-    data['ano'] = this.ano;
+    data['idade'] = this.idade;
     data['pais'] = this.pais;
-    data['regiao'] = this.regiao;
-    data['produtor'] = this.produtor;
-    data['uvas'] = this.uvas;
     data['tipo'] = this.tipo;
-    data['teorAlcolico'] = this.teorAlcolico;
-    data['volume'] = this.volume;
     data['favorito'] = this.favorito;
+    data['localizacao'] = this.localizacao;
     return data;
   }
 }

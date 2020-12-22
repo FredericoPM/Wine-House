@@ -5,25 +5,31 @@ class TextFild extends StatefulWidget {
   String errorText;
   void Function(String text) onChanged;
   var icon;
-  TextFild({this.controller, this.hintText, this.errorText, this.onChanged, this.icon});
+  var keyboardType;
+  TextFild({this.controller, this.hintText, this.errorText, this.onChanged, this.icon, this.keyboardType = TextInputType.text});
   @override
-  _TextFildState createState() => _TextFildState(this.controller, this.hintText, this.errorText, this.onChanged, this.icon);
+  _TextFildState createState() => _TextFildState(this.controller, this.hintText, this.errorText, this.onChanged, this.icon, this.keyboardType);
 }
 
 class _TextFildState extends State<TextFild> {
-  TextEditingController controller = TextEditingController();
+
+  var icon;
   String hintText;
   String errorText;
-  void Function(String text) onChanged;
-  var icon;
+  var keyboardType;
   bool _focus = false;
-  _TextFildState(this.controller, this.hintText, this.errorText, this.onChanged, this.icon);
+  void Function(String text) onChanged;
+  TextEditingController controller = TextEditingController();
+
+  _TextFildState(this.controller, this.hintText, this.errorText, this.onChanged, this.icon, this.keyboardType);
   @override
   Widget build(BuildContext context) {
     return FocusScope(
         child: Focus(
             onFocusChange: (focus) => setState(() { _focus = focus; }),
             child:TextFormField(
+              keyboardType: keyboardType,
+              enabled: true,
               controller: controller,
               validator: (s) {
                 if (s.isEmpty)
@@ -38,6 +44,9 @@ class _TextFildState extends State<TextFild> {
               decoration: InputDecoration(
                 hintText: hintText,
                 prefixIcon: icon,
+                errorStyle: TextStyle(
+                  color: Color(0xFF942641),
+                ),
                 suffixIcon: _focus ? IconButton(
                   icon: Icon(Icons.clear, color: Colors.grey[700]),
                   onPressed: () {

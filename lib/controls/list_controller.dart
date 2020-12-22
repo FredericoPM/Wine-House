@@ -3,19 +3,9 @@ import '../models/vinho.dart';
     List<Vinho> _vinhos = [
       Vinho(
           nome: "Taylor’s Fine Tawny",
-          ano: 1970,
+          idade: 20,
           pais: "Portugal",
-          regiao: "douro",
-          produtor: "Taylor's",
-          uvas: [
-            "Tempranillo (Tinta Roriz / Aragonez)",
-            "Tinta Barroca",
-            "Tinto Cão",
-            "Touriga Franca"
-          ],
           tipo: "Porto",
-          teorAlcolico: 20,
-          volume: 750
       ),
     ];
 
@@ -23,7 +13,7 @@ import '../models/vinho.dart';
       return this._vinhos;
     }
 
-    void add(Vinho v){
+    Future<void> add(Vinho v) async{
       vinhos.add(v);
     }
 

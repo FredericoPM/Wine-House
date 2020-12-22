@@ -86,12 +86,7 @@ class _Main_listState extends State<Main_list> {
                             color: Color(0xFF942641),
                           ),
                           onPressed: (){
-                            showModalBottomSheet<void>(
-                              context: context,
-                              builder: (context) {
-                                return WineForm();
-                              },
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => WineForm(onAdd: (Vinho v) => controller.add(v).then((value) => setState(() {vinhos = controller.vinhos;})),)));
                           }
                       )
                     ],

@@ -41,7 +41,7 @@ class ListCard extends StatelessWidget {
                 icon: Icon(
                   vinho.favorito ? Icons.favorite: Icons.favorite_outline,
                   size: 30,
-                  color: Color(0xFF942641),
+                  color: Color(0xFFf88a29),
                 ),
                 onPressed: () => onFavorite(),
               )
