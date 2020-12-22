@@ -22,11 +22,11 @@ class _Main_listState extends State<Main_list> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(162.0),
+        preferredSize: Size.fromHeight(145.0),
         child: Container(
             width: double.infinity,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 35),
+              padding: EdgeInsets.fromLTRB(15, 35, 15, 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,15 +69,66 @@ class _Main_listState extends State<Main_list> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
+                      PopupMenuButton<String>(
                           icon: Icon(
-                            Icons.sort_rounded,
-                            size: 27,
-                            color: Color(0xFF942641),
+                                  Icons.sort_rounded,
+                                  size: 27,
+                                  color: Color(0xFF942641),
+                                ),
+                        padding: EdgeInsets.zero,
+                        onSelected: (value) {
+                          setState(() {
+                            if(value == "fv"){
+                              controller.invertFavoritePriority();
+                            }else{
+                              controller.order = value;
+                            }
+                            controller.sort();
+                          });
+                        },
+                        itemBuilder: (context) => <PopupMenuEntry<String>>[
+                          PopupMenuItem<String>(
+                            value: "nm",
+                            child: ListTile(
+                              leading: Icon(Icons.wine_bar_outlined, color: controller.order == "nm" ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                              title: Text(
+                                "Nome",
+                                style: TextStyle(fontWeight: controller.order == "nm" ? FontWeight.bold : null),
+                              ),
+                            ),
                           ),
-                          onPressed: (){
-
-                          }
+                          PopupMenuItem<String>(
+                            value: "tp",
+                            child: ListTile(
+                              leading: Icon(Icons.wine_bar, color: controller.order == "tp" ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                              title: Text(
+                                "Tipo",
+                                style: TextStyle(fontWeight: controller.order == "tp" ? FontWeight.bold : null),
+                              ),
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: "pa",
+                            child: ListTile(
+                              leading: Icon(Icons.place_outlined, color: controller.order == "pa" ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                              title: Text(
+                                "Pais",
+                                style: TextStyle(fontWeight: controller.order == "pa" ? FontWeight.bold : null),
+                              ),
+                            ),
+                          ),
+                          const PopupMenuDivider(),
+                          PopupMenuItem<String>(
+                            value: "fv",
+                            child: ListTile(
+                              leading: Icon(Icons.favorite, color: controller.favoritePriority ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                              title: Text(
+                                "Favoritos",
+                                style: TextStyle(fontWeight: controller.favoritePriority ? FontWeight.bold : null),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       IconButton(
                           icon: Icon(
@@ -86,7 +137,7 @@ class _Main_listState extends State<Main_list> {
                             color: Color(0xFF942641),
                           ),
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => WineForm(onAdd: (Vinho v) => controller.add(v).then((value) => setState(() {vinhos = controller.vinhos;})),)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => WineForm(onAdd: (Vinho v) => controller.add(v).then((value) => setState(() {vinhos = controller.vinhos;})))));
                           }
                       )
                     ],

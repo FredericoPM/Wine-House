@@ -1,31 +1,69 @@
 import '../models/vinho.dart';
-  class ListController{
-    List<Vinho> _vinhos = [
-      Vinho(
-          nome: "Taylor’s Fine Tawny",
-          idade: 20,
-          pais: "Portugal",
-          tipo: "Porto",
-      ),
-    ];
+class ListController{
+  List<Vinho> _vinhos = [
+    Vinho(
+        nome: "Taylor’s Fine Tawny",
+        idade: 20,
+        pais: "Portugal",
+        tipo: "Porto",
+    ),
+    Vinho(
+      nome: "Marchesi del Salento",
+      idade: 1,
+      pais: "Itália",
+      tipo: "Tinto",
+    ),
+    Vinho(
+      nome: "Les Templiers Cabernet Sauvignon",
+      idade: 20,
+      pais: "França",
+      tipo: "Tinto Seco",
+    ),
+    Vinho(
+      nome: "Famiglia Castellani Pinot Grigio",
+      idade: 1,
+      pais: "Itália",
+      tipo: "Branco",
+    ),
+  ];
+  String _order = "nm";
+  bool _favoritePriority = false;
 
-    List<Vinho> get vinhos{
-      return this._vinhos;
-    }
 
-    Future<void> add(Vinho v) async{
-      vinhos.add(v);
-    }
 
-    void eddit(int index, Vinho v){
+  List<Vinho> get vinhos{
+    return this._vinhos;
+  }
 
-    }
+  set order(String newOrder){
+    this._order = newOrder;
+  }
+  String get order{
+    return this._order;
+  }
 
-    void remove(int index){
+  void invertFavoritePriority(){
+    this._favoritePriority = !this._favoritePriority;
+  }
+  bool get favoritePriority{
+    return this._favoritePriority;
+  }
+  void sort() async{
+    _vinhos.sort((a, b) => _order == "nm" ? a.nome.compareTo(b.nome) : _order == "tp" ? a.tipo.compareTo(b.tipo) : a.pais.compareTo(b.pais));
+  }
+  Future<void> add(Vinho v) async{
+    vinhos.add(v);
+  }
 
-    }
+  void eddit(int index, Vinho v){
 
-    List<Vinho> search(string ){
+  }
 
-    }
+  void remove(int index){
+
+  }
+
+  List<Vinho> search(string ){
+
+  }
 }
