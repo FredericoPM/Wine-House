@@ -79,7 +79,7 @@ class _WineFormState extends State<WineForm> {
                   TextFild(
                     controller: _paisController,
                     hintText: "Pais de origem",
-                    errorText: "Por favor preencha pais de origem",
+                    errorText: "Por favor preencha o pais de origem",
                     icon: Icon(Icons.place_outlined, color: Colors.grey[700]),
                   ),
                   sizedBoxSpace,
