@@ -29,8 +29,6 @@ class ListController{
   String _order = "nm";
   bool _favoritePriority = false;
 
-
-
   List<Vinho> get vinhos{
     return this._vinhos;
   }
@@ -48,8 +46,37 @@ class ListController{
   bool get favoritePriority{
     return this._favoritePriority;
   }
+
   void sort() async{
-    _vinhos.sort((a, b) => _order == "nm" ? a.nome.compareTo(b.nome) : _order == "tp" ? a.tipo.compareTo(b.tipo) : a.pais.compareTo(b.pais));
+    switch(_order){
+      case "nm":
+        _vinhos.sort((a, b) {
+          if(_favoritePriority && a.favorito ^ b.favorito){
+            return a.favorito ? -1 : 1;
+          }
+          int nomeCompare = a.nome.compareTo(b.nome);
+          return nomeCompare == 0 ? a.tipo.compareTo(b.tipo) :nomeCompare;
+        });
+      break;
+      case "tp":
+        _vinhos.sort((a, b) {
+          if(_favoritePriority && a.favorito ^ b.favorito){
+            return a.favorito ? -1 : 1;
+          }
+          int tipoCompare = a.tipo.compareTo(b.tipo);
+          return tipoCompare == 0 ? a.nome.compareTo(b.nome) : tipoCompare;
+        });
+      break;
+      case "pa":
+        _vinhos.sort((a, b) {
+          if(_favoritePriority && a.favorito ^ b.favorito){
+            return a.favorito ? -1 : 1;
+          }
+          int paisCompare = a.pais.compareTo(b.pais);
+          return paisCompare == 0 ? a.nome.compareTo(b.nome) : paisCompare;
+        });
+      break;
+    }
   }
   Future<void> add(Vinho v) async{
     vinhos.add(v);

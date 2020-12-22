@@ -42,7 +42,14 @@ class _Main_listState extends State<Main_list> {
                   TextFild(
                     controller: _searchController,
                     hintText: "Pesquise um vinho",
-                    onChanged: (String text) {print(text);},
+                    onChanged: (String text) {
+                      setState(() {
+                        if(text == "")
+                          vinhos = controller.vinhos;
+                        else
+                          vinhos = controller.vinhos.where((v) => v.nome.toUpperCase().indexOf(text.toUpperCase()) != -1).toList();
+                      });
+                    },
                     icon: Icon(Icons.search, color: Colors.grey[700]),
                   )
                 ],
@@ -149,13 +156,17 @@ class _Main_listState extends State<Main_list> {
               height: 10,
             ),
             Container(
-              height: 200,
+              height: 300,
               child: ListView.builder(
                   itemCount: vinhos.length,
                   itemBuilder: (ctx, index) {
                     return ListCard(
                         vinho: vinhos[index],
-                        onFavorite: () => setState(() {vinhos[index].favorito = !vinhos[index].favorito; }),
+                        onFavorite: () => setState(() {
+                          vinhos[index].favorito = !vinhos[index].favorito;
+                          if(controller.favoritePriority)
+                            controller.sort();
+                        }),
                     );
                   }
               ),

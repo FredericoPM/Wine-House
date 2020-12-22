@@ -28,7 +28,7 @@ class ListCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(vinho.nome, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      Text(vinho.nome, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18 - (vinho.nome.length - 24)/2.5 )),
                       SizedBox(
                         height: 3,
                       ),
