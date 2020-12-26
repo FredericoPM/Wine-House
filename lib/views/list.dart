@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import '../controls/list_controller.dart';
+import '../controls/list.dart';
 import '../models/vinho.dart';
-import '../widgets/listCard_widget.dart';
+import '../widgets/listCard.dart';
 import '../widgets/textField.dart';
-import 'wineForm_view.dart';
+import 'wineForm.dart';
+import '../controls/pesquisaAproximada.dart';
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
 }
 
 class _Main_listState extends State<Main_list> {
+  PesquisaAproximada pesquisa = new PesquisaAproximada();
   TextEditingController _searchController = TextEditingController();
   ListController controller = ListController();
   List<Vinho> vinhos;
@@ -46,8 +48,9 @@ class _Main_listState extends State<Main_list> {
                       setState(() {
                         if(text == "")
                           vinhos = controller.vinhos;
-                        else
-                          vinhos = controller.vinhos.where((v) => v.nome.toUpperCase().indexOf(text.toUpperCase()) != -1).toList();
+                        else{
+                          vinhos = controller.vinhos.where((v) =>pesquisa.pFromStart(text.toUpperCase(),v.nome.toUpperCase())).toList();
+                        }
                       });
                     },
                     icon: Icon(Icons.search, color: Colors.grey[700]),
@@ -170,7 +173,7 @@ class _Main_listState extends State<Main_list> {
                     );
                   }
               ),
-            )
+            ),
           ],
         ),
       )
