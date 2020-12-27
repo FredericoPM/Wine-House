@@ -30,11 +30,11 @@ class _Main_listState extends State<Main_list> {
             child: Padding(
               padding: EdgeInsets.fromLTRB(15, 35, 15, 15),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Adega Virtual",
+                    "Wine House",
                     style: TextStyle(
                       color: Color(0xFF942641),
                       fontWeight: FontWeight.bold,
