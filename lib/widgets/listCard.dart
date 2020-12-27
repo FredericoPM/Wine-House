@@ -20,7 +20,7 @@ class ListCard extends StatelessWidget {
                   Icon(
                     Icons.wine_bar_outlined,
                     size: 45,
-                    color: Color(0xFF942641),
+                    color: Theme.of(context).primaryColor,
                   ),
                   SizedBox(
                     width: 10,

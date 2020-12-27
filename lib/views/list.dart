@@ -36,9 +36,10 @@ class _Main_listState extends State<Main_list> {
                   Text(
                     "Wine House",
                     style: TextStyle(
-                      color: Color(0xFF942641),
+                      fontFamily: 'GreatVibes',
+                      color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      fontSize: 40,
                     ),
                   ),
                   TextFild(
@@ -83,7 +84,7 @@ class _Main_listState extends State<Main_list> {
                           icon: Icon(
                                   Icons.sort_rounded,
                                   size: 27,
-                                  color: Color(0xFF942641),
+                                  color: Theme.of(context).primaryColor,
                                 ),
                         padding: EdgeInsets.zero,
                         onSelected: (value) {
@@ -144,7 +145,7 @@ class _Main_listState extends State<Main_list> {
                           icon: Icon(
                             Icons.add_circle_outline,
                             size: 27,
-                            color: Color(0xFF942641),
+                            color: Theme.of(context).primaryColor,
                           ),
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context) => WineForm(onAdd: (Vinho v) => controller.add(v).then((value) => setState(() {vinhos = controller.vinhos;})))));

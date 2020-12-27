@@ -31,7 +31,7 @@ class _WineFormState extends State<WineForm> {
         leading: IconButton(
           icon: Icon(
               Icons.keyboard_backspace,
-              color: Color(0xFF942641),
+              color: Theme.of(context).primaryColor,
               size: 30,
           ),
           onPressed: () => Navigator.of(context).pop(),
@@ -39,7 +39,7 @@ class _WineFormState extends State<WineForm> {
         title: Text(
           "Novo vinho",
           style: TextStyle(
-            color: Color(0xFF942641),
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 30,
           ),

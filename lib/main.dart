@@ -5,8 +5,8 @@ void main() {
     MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         primaryColor: Color(0xFF942641),
+        fontFamily: 'Roboto',
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,

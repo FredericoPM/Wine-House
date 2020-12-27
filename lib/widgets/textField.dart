@@ -45,7 +45,7 @@ class _TextFildState extends State<TextFild> {
                 hintText: hintText,
                 prefixIcon: icon,
                 errorStyle: TextStyle(
-                  color: Color(0xFF942641),
+                  color: Theme.of(context).primaryColor,
                 ),
                 suffixIcon: _focus ? IconButton(
                   icon: Icon(Icons.clear, color: Colors.grey[700]),
