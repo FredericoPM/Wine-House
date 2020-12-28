@@ -17,7 +17,7 @@ class ListCard extends StatelessWidget {
           size: 45,
           color: Theme.of(context).primaryColor,
         ),
-        title: vinho.nome.length < 26
+        title: vinho.nome.length * 16 < MediaQuery.of(context).size.width
         ? Text(
             vinho.nome, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
         ): FittedBox(
