@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import '../models/vinho.dart';
 import '../controls/paises.dart';
+import 'infoModal.dart';
 class ListCard extends StatelessWidget {
   int index = 0;
   PaisesController paisesController = PaisesController();
   final Vinho vinho;
   void Function() onFavorite;
   ListCard({this.vinho, this.onFavorite});
+
   bool imageExist(){
     bool result = false;
     for(int i =0; i< paisesController.paisesDisponiveis.length && !result; i++){
@@ -17,6 +19,15 @@ class ListCard extends StatelessWidget {
     }
     return result;
   }
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (context) {
+        return InfoModal(vinho);
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -24,7 +35,7 @@ class ListCard extends StatelessWidget {
       elevation: 4,
       child: ListTile(
         contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-        onTap: (){},
+        onTap: () => _showModalBottomSheet(context),
         leading: imageExist()
           ? Stack(
           alignment: Alignment.center,
