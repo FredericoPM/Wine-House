@@ -5,15 +5,19 @@ class Vinho {
   String pais;
   String localizacao;
 
-  bool favorito = false;
-
   Vinho({
     this.nome,
     this.idade,
     this.pais,
     this.tipo,
     this.localizacao,
-  });
+  }){
+    nome = nome[0].toUpperCase() + nome.substring(1);
+    pais = pais[0].toUpperCase() + pais.substring(1);
+    tipo = tipo[0].toUpperCase() + tipo.substring(1);
+  }
+
+  bool favorito = false;
 
   Vinho.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];

@@ -5,7 +5,7 @@ class PaisesController{
       'imagem' : 'assets/images/franca.png',
     },
     {
-      'pais' : 'Italía',
+      'pais' : 'Itália',
       'imagem' : 'assets/images/italia.png',
     },
     {

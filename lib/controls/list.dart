@@ -47,7 +47,7 @@ class ListController{
     return this._favoritePriority;
   }
 
-  void sort() async{
+  Future<void> sort() async{
     switch(_order){
       case "nm":
         _vinhos.sort((a, b) {

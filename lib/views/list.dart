@@ -164,7 +164,14 @@ class _Main_listState extends State<Main_list> {
                               color: Theme.of(context).primaryColor,
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => WineForm(onAdd: (Vinho v) => controller.add(v).then((value) => setState(() {vinhos = controller.vinhos;})))));
+                              Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => WineForm(
+                                    onAdd: (Vinho v) {
+                                      controller.add(v);
+                                      controller.sort().then((value) => setState(() {vinhos = controller.vinhos;}));
+                                    }
+                                ))
+                              );
                             }
                         )
                       ],
