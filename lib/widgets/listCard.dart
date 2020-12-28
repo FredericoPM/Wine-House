@@ -8,45 +8,29 @@ class ListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: InkWell(
+      elevation: 4,
+      child: ListTile(
+        contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
         onTap: (){},
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(10, 5, 0, 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.wine_bar_outlined,
-                    size: 45,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(vinho.nome, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18 - (vinho.nome.length - 24)/2.5 )),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      Text(vinho.tipo, style: TextStyle(color: Colors.grey, fontSize: 15)),
-                    ],
-                  ),
-                ],
-              ),
-              IconButton(
-                icon: Icon(
-                  vinho.favorito ? Icons.favorite: Icons.favorite_outline,
-                  size: 30,
-                  color: Color(0xFFf88a29),
-                ),
-                onPressed: () => onFavorite(),
-              )
-            ],
+        leading: Icon(
+          Icons.wine_bar_outlined,
+          size: 45,
+          color: Theme.of(context).primaryColor,
+        ),
+        title: vinho.nome.length < 26
+        ? Text(
+            vinho.nome, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
+        ): FittedBox(
+              child: Text(vinho.nome, style: TextStyle(fontWeight: FontWeight.bold))
+        ),
+        subtitle: Text(vinho.tipo),
+        trailing: IconButton(
+          icon: Icon(
+            vinho.favorito ? Icons.favorite: Icons.favorite_outline,
+            size: 30,
+            color: Color(0xFFf88a29),
           ),
+          onPressed: () => onFavorite(),
         ),
       )
     );

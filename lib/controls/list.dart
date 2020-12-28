@@ -1,30 +1,30 @@
 import '../models/vinho.dart';
 class ListController{
   List<Vinho> _vinhos = [
-//    Vinho(
-//        nome: "Taylor’s Fine Tawny",
-//        idade: 20,
-//        pais: "Portugal",
-//        tipo: "Porto",
-//    ),
-//    Vinho(
-//      nome: "Marchesi del Salento",
-//      idade: 1,
-//      pais: "Itália",
-//      tipo: "Tinto",
-//    ),
-//    Vinho(
-//      nome: "Les Templiers Cabernet Sauvignon",
-//      idade: 20,
-//      pais: "França",
-//      tipo: "Tinto Seco",
-//    ),
-//    Vinho(
-//      nome: "Famiglia Castellani Pinot Grigio",
-//      idade: 1,
-//      pais: "Itália",
-//      tipo: "Branco",
-//    ),
+    Vinho(
+        nome: "Taylor’s Fine Tawny",
+        idade: 20,
+        pais: "Portugal",
+        tipo: "Porto",
+    ),
+    Vinho(
+      nome: "Marchesi del Salento",
+      idade: 1,
+      pais: "Itália",
+      tipo: "Tinto",
+    ),
+    Vinho(
+      nome: "Les Templiers Cabernet Sauvignon",
+      idade: 20,
+      pais: "França",
+      tipo: "Tinto Seco",
+    ),
+    Vinho(
+      nome: "Famiglia Castellani Pinoti Grigio",
+      idade: 1,
+      pais: "Itália",
+      tipo: "Branco",
+    ),
   ];
   String _order = "nm";
   bool _favoritePriority = false;
