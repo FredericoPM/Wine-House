@@ -81,7 +81,7 @@ class _Main_listState extends State<Main_list> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       PopupMenuButton<String>(
-                          icon: Icon(
+                        icon: Icon(
                                   Icons.sort_rounded,
                                   size: 27,
                                   color: Theme.of(context).primaryColor,
@@ -98,6 +98,13 @@ class _Main_listState extends State<Main_list> {
                           });
                         },
                         itemBuilder: (context) => <PopupMenuEntry<String>>[
+                          PopupMenuItem<String>(
+                            enabled: false,
+                            child: Text(
+                              "Ordenar por:",
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                            ),
+                          ),
                           PopupMenuItem<String>(
                             value: "nm",
                             child: ListTile(
@@ -161,7 +168,28 @@ class _Main_listState extends State<Main_list> {
             ),
             Container(
               height: 300,
-              child: ListView.builder(
+              child: vinhos.length == 0 ? Opacity(
+                opacity: 0.5,
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      "Sua adega esta vazia",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      height: 200,
+                      child: Image.asset(
+                        "assets/images/adega.png",
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  ],
+                ),
+              ) : ListView.builder(
                   itemCount: vinhos.length,
                   itemBuilder: (ctx, index) {
                     return ListCard(
