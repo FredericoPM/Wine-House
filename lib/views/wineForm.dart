@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import '../widgets/textField.dart';
 import '../models/vinho.dart';
+import '../controls/paises.dart';
+import '../controls/pesquisaAproximada.dart';
+
 class WineForm extends StatefulWidget {
   void Function(Vinho v) onAdd;
   WineForm({this.onAdd});
   @override
-  _WineFormState createState() => _WineFormState(onAdd);
+  _WineFormState createState() => _WineFormState();
 }
 
 class _WineFormState extends State<WineForm> {
 
+  PesquisaAproximada pesquisa = PesquisaAproximada();
+  PaisesController paisController = PaisesController();
   final _formKey = GlobalKey<FormState>();
+  TextEditingController _paisTextController = TextEditingController();
   TextEditingController _nomeController = TextEditingController();
-  TextEditingController _paisController = TextEditingController();
   TextEditingController _tipoController = TextEditingController();
   TextEditingController _idadeController = TextEditingController();
   TextEditingController _localizacaoController = TextEditingController();
 
-  void Function(Vinho v) onAdd;
 
   final sizedBoxSpace = SizedBox(height: 12);
-
-  _WineFormState(this.onAdd);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,17 +65,33 @@ class _WineFormState extends State<WineForm> {
                     ),
                     sizedBoxSpace,
                     TextFild(
-                      controller: _paisController,
-                      hintText: "Pais de origem",
-                      errorText: "Por favor preencha o pais de origem",
-                      icon: Icon(Icons.place_outlined, color: Colors.grey[700]),
-                    ),
-                    sizedBoxSpace,
-                    TextFild(
                       controller: _tipoController,
                       hintText: "Tipo",
                       errorText: "Por favor preencha o tipo",
                       icon: Icon(Icons.wine_bar, color: Colors.grey[700]),
+                    ),
+                    sizedBoxSpace,
+                    TextFild(
+                      controller: _paisTextController,
+                      hintText: "Pais de origem",
+                      errorText: "Por favor preencha o pais de origem",
+                      icon: Icon(Icons.place_outlined, color: Colors.grey[700]),
+                      //sera utilizado para fazer uma correção automatica da entrada para poder buscar a dados posteriormente
+                      onFocusExit: () {
+                        if(_paisTextController.text != ""){
+                          int menorDistancia = 2;
+                          String newText;
+                          paisController.paisesDisponiveis.forEach((p) {
+                            int distanciaAtual = pesquisa.distancia(_paisTextController.text.toUpperCase(), p['pais'].toUpperCase());
+                            if(distanciaAtual < menorDistancia){
+                                menorDistancia = distanciaAtual;
+                                newText = p['pais'];
+                            }
+                            if(menorDistancia < 2)
+                              _paisTextController.text = newText;
+                          });
+                        }
+                      },
                     ),
                     sizedBoxSpace,
                     TextFild(
@@ -120,11 +138,11 @@ class _WineFormState extends State<WineForm> {
                       ),
                       onPressed: (){
                         if (_formKey.currentState.validate()) {
-                          onAdd(Vinho(
+                          widget.onAdd(Vinho(
                             nome: _nomeController.text,
                             tipo: _tipoController.text,
                             idade: int.parse(_idadeController.text),
-                            pais: _paisController.text,
+                            pais: _paisTextController.text,
                           ));
                           Navigator.of(context).pop();
                         }

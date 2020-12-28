@@ -1,58 +1,57 @@
 import 'package:flutter/material.dart';
+import '../controls/pesquisaAproximada.dart';
 class TextFild extends StatefulWidget {
   TextEditingController controller = TextEditingController();
   String hintText;
   String errorText;
   void Function(String text) onChanged;
+  void Function() onFocusExit;
   var icon;
   var keyboardType;
-  TextFild({this.controller, this.hintText, this.errorText, this.onChanged, this.icon, this.keyboardType = TextInputType.text});
+  TextFild({this.controller, this.hintText, this.errorText, this.onChanged, this.icon, this.keyboardType = TextInputType.text, this.onFocusExit});
   @override
-  _TextFildState createState() => _TextFildState(this.controller, this.hintText, this.errorText, this.onChanged, this.icon, this.keyboardType);
+  _TextFildState createState() => _TextFildState();
 }
 
 class _TextFildState extends State<TextFild> {
 
-  var icon;
-  String hintText;
-  String errorText;
-  var keyboardType;
   bool _focus = false;
-  void Function(String text) onChanged;
-  TextEditingController controller = TextEditingController();
-
-  _TextFildState(this.controller, this.hintText, this.errorText, this.onChanged, this.icon, this.keyboardType);
   @override
   Widget build(BuildContext context) {
     return FocusScope(
         child: Focus(
-            onFocusChange: (focus) => setState(() { _focus = focus; }),
+            onFocusChange: (focus)  {
+              setState(() { _focus = focus; });
+              if(!focus && widget.onFocusExit != null){
+                widget.onFocusExit();
+              }
+            },
             child:TextFormField(
-              keyboardType: keyboardType,
+              keyboardType: widget.keyboardType,
               enabled: true,
-              controller: controller,
+              controller: widget.controller,
               validator: (s) {
                 if (s.isEmpty)
-                  return errorText;
+                  return widget.errorText;
                 else
                   return null;
               },
               onChanged: (text) => {
-                if(onChanged != null)
-                  onChanged(text)
+                if(widget.onChanged != null)
+                  widget.onChanged(text)
               },
               decoration: InputDecoration(
-                hintText: hintText,
-                prefixIcon: icon,
+                hintText: widget.hintText,
+                prefixIcon: widget.icon,
                 errorStyle: TextStyle(
                   color: Theme.of(context).primaryColor,
                 ),
                 suffixIcon: _focus ? IconButton(
                   icon: Icon(Icons.clear, color: Colors.grey[700]),
                   onPressed: () {
-                    setState(() { controller.text = ""; });
-                    if(onChanged != null)
-                      onChanged(controller.text);
+                    setState(() { widget.controller.text = ""; });
+                    if(widget.onChanged != null)
+                      widget.onChanged(widget.controller.text);
                   },
                 ) : null,
                 filled: true,

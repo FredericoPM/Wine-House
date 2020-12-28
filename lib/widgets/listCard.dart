@@ -12,10 +12,14 @@ class ListCard extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
         onTap: (){},
-        leading: Icon(
-          Icons.wine_bar_outlined,
-          size: 45,
-          color: Theme.of(context).primaryColor,
+        leading: CircleAvatar(
+          backgroundColor: Theme.of(context).primaryColor,
+          child: FittedBox(
+            child: Icon(
+              Icons.place_outlined,
+              color: Colors.white,
+            ),
+          )
         ),
         title: vinho.nome.length * 16 < MediaQuery.of(context).size.width
         ? Text(
