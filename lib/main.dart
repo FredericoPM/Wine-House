@@ -6,6 +6,8 @@ void main() {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Color(0xFF942641),
+        errorColor: Color(0xFFf88a29),
+        accentColor: Color(0xFF7fbb4a),
         fontFamily: 'Roboto',
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

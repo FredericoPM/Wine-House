@@ -7,6 +7,8 @@ import '../widgets/listCard.dart';
 import '../widgets/textField.dart';
 import 'wineForm.dart';
 import '../controls/pesquisaAproximada.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_helper.dart';
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
@@ -18,12 +20,25 @@ class _Main_listState extends State<Main_list> {
   ListController controller = ListController();
   List<Vinho> vinhos;
 
+  void showFlushbar(BuildContext context, String text, var color){
+    Flushbar(
+      messageText: Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold),),
+      duration: Duration(seconds: 5),
+      backgroundColor: Colors.white,
+      borderColor: Colors.grey[300],
+      margin: EdgeInsets.all(18),
+      borderRadius: 8,
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+    )..show(context);
+  }
+
   @override
   void initState() {
+    print("teste");
     vinhos = controller.vinhos;
     super.initState();
   }
-  @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
@@ -117,7 +132,7 @@ class _Main_listState extends State<Main_list> {
                             PopupMenuItem<String>(
                               value: "nm",
                               child: ListTile(
-                                leading: Icon(Icons.wine_bar_outlined, color: controller.order == "nm" ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                                leading: Icon(Icons.wine_bar_outlined, color: controller.order == "nm" ? Theme.of(context).accentColor : Colors.grey[700]),
                                 title: Text(
                                   "Nome",
                                   style: TextStyle(fontWeight: controller.order == "nm" ? FontWeight.bold : null),
@@ -127,7 +142,7 @@ class _Main_listState extends State<Main_list> {
                             PopupMenuItem<String>(
                               value: "tp",
                               child: ListTile(
-                                leading: Icon(Icons.wine_bar, color: controller.order == "tp" ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                                leading: Icon(Icons.wine_bar, color: controller.order == "tp" ? Theme.of(context).accentColor : Colors.grey[700]),
                                 title: Text(
                                   "Tipo",
                                   style: TextStyle(fontWeight: controller.order == "tp" ? FontWeight.bold : null),
@@ -137,7 +152,7 @@ class _Main_listState extends State<Main_list> {
                             PopupMenuItem<String>(
                               value: "pa",
                               child: ListTile(
-                                leading: Icon(Icons.place_outlined, color: controller.order == "pa" ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                                leading: Icon(Icons.place_outlined, color: controller.order == "pa" ? Theme.of(context).accentColor : Colors.grey[700]),
                                 title: Text(
                                   "Pais",
                                   style: TextStyle(fontWeight: controller.order == "pa" ? FontWeight.bold : null),
@@ -148,7 +163,7 @@ class _Main_listState extends State<Main_list> {
                             PopupMenuItem<String>(
                               value: "fv",
                               child: ListTile(
-                                leading: Icon(Icons.favorite, color: controller.favoritePriority ? Color(0xFF7fbb4a) : Colors.grey[700]),
+                                leading: Icon(Icons.favorite, color: controller.favoritePriority ? Theme.of(context).accentColor : Colors.grey[700]),
                                 title: Text(
                                   "Favoritos",
                                   style: TextStyle(fontWeight: controller.favoritePriority ? FontWeight.bold : null),
@@ -169,6 +184,8 @@ class _Main_listState extends State<Main_list> {
                                     onAdd: (Vinho v) {
                                       controller.add(v);
                                       controller.sort().then((value) => setState(() {vinhos = controller.vinhos;}));
+                                      Navigator.of(context).pop();
+                                      showFlushbar(context, "Novo vinho cadastrado com sucesso!", Theme.of(context).accentColor);
                                     }
                                 ))
                               );
@@ -209,17 +226,19 @@ class _Main_listState extends State<Main_list> {
                     ],
                   ),
                 ) : Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10 + MediaQuery.of(context).viewInsets.bottom),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 15 + MediaQuery.of(context).viewInsets.bottom),
                   child: ListView.builder(
                       itemCount: vinhos.length,
                       itemBuilder: (ctx, index) {
                         return ListCard(
                           vinho: vinhos[index],
-                          onFavorite: () => setState(() {
-                            vinhos[index].favorito = !vinhos[index].favorito;
-                            if(controller.favoritePriority)
-                              controller.sort();
-                          }),
+                          onFavorite: () {
+                            setState(() {
+                              vinhos[index].favorito = !vinhos[index].favorito;
+                              if(controller.favoritePriority)
+                                controller.sort();
+                            });
+                          },
                         );
                       }
                   ),
@@ -227,7 +246,7 @@ class _Main_listState extends State<Main_list> {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }

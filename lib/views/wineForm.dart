@@ -78,7 +78,7 @@ class _WineFormState extends State<WineForm> {
                       icon: Icon(Icons.place_outlined, color: Colors.grey[700]),
                       //sera utilizado para fazer uma correção automatica da entrada para poder buscar a dados posteriormente
                       onFocusExit: () {
-                        if(_paisTextController.text != ""){
+                        if(_paisTextController.text != "" && _paisTextController.text.length > 3){
                           int menorDistancia = 2;
                           String newText;
                           paisController.paisesDisponiveis.forEach((p) {
@@ -101,7 +101,6 @@ class _WineFormState extends State<WineForm> {
                       icon: Icon(Icons.date_range_outlined, color: Colors.grey[700]),
                       keyboardType: TextInputType.number,
                     ),
-
                     sizedBoxSpace,
                     TextFild(
                       controller: _localizacaoController,
@@ -117,7 +116,7 @@ class _WineFormState extends State<WineForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   RaisedButton(
-                      color: Color(0xFFf88a29),
+                      color: Theme.of(context).errorColor,
                       child: Container(
                         width: 110,
                         child: Center(
@@ -129,7 +128,7 @@ class _WineFormState extends State<WineForm> {
                       }
                   ),
                   RaisedButton(
-                      color: Color(0xFF7fbb4a),
+                      color: Theme.of(context).accentColor,
                       child: Container(
                         width: 110,
                         child: Center(
@@ -144,7 +143,6 @@ class _WineFormState extends State<WineForm> {
                             idade: int.parse(_idadeController.text),
                             pais: _paisTextController.text,
                           ));
-                          Navigator.of(context).pop();
                         }
                       }
                   ),
