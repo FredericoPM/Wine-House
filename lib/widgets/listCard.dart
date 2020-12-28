@@ -9,17 +9,6 @@ class ListCard extends StatelessWidget {
   void Function() onFavorite;
   ListCard({this.vinho, this.onFavorite});
 
-  bool imageExist(){
-    bool result = false;
-    for(int i =0; i< paisesController.paisesDisponiveis.length && !result; i++){
-      if(vinho.pais == paisesController.paisesDisponiveis[i]['pais']){
-        result = true;
-        index = i;
-      }
-    }
-    return result;
-  }
-
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
@@ -36,7 +25,7 @@ class ListCard extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
         onTap: () => _showModalBottomSheet(context),
-        leading: imageExist()
+        leading: paisesController.imageExist(vinho)
           ? Stack(
           alignment: Alignment.center,
             children: [
@@ -46,7 +35,7 @@ class ListCard extends StatelessWidget {
               Container(
                 height:35,
                 child: Image.asset(
-                  paisesController.paisesDisponiveis[index]['imagem'],
+                  paisesController.imagePath(vinho),
                   fit: BoxFit.cover,
                 ),
               )
