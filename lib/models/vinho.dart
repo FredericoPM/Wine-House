@@ -30,13 +30,13 @@ class Vinho {
       ano = DateTime.now().year;
     }
   }
+
   int get id{
     return _id;
   }
   set id(int id){
     _id = id;
   }
-
 
   Vinho.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
@@ -45,6 +45,8 @@ class Vinho {
     tipo = json['tipo'];
     favorito = json['favorito'];
     localizacao = json['localizacao'];
+    comentario = json['comentario'];
+    nota = json['nota'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +57,8 @@ class Vinho {
     data['tipo'] = this.tipo;
     data['favorito'] = this.favorito;
     data['localizacao'] = this.localizacao;
+    data['comentario'] = this.comentario;
+    data['nota'] = this.nota;
     return data;
   }
 }
