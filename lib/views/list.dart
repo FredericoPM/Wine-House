@@ -58,14 +58,16 @@ class _Main_listState extends State<Main_list> {
               controller.remove(vinho);
             });
             Navigator.of(context).pop();
-            showFlushbar(context, "Vinho deletado com sucesso", Theme.of(context).errorColor);
+            showFlushbar(context, "Vinho deletado com sucesso!", Theme.of(context).errorColor);
           },
           onEddit: (Vinho v){
             setState(() {
-              controller.eddit(v, controller.vinhos.indexOf(vinho));
+              controller.eddit(v, controller.searchIndex(vinho.id));
               controller.sort();
             });
-            Navigator.of(context).pop();
+          },
+          att: (int id){
+            return controller.search(id);
           },
         );
       },

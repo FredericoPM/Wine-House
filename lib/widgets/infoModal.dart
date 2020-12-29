@@ -11,19 +11,21 @@ class InfoModal extends StatefulWidget {
   void Function() onFavorite;
   void Function(Vinho vinho) onDelete;
   void Function(Vinho vinho) onEddit;
-  InfoModal({this.vinho, this.onDelete, this.onFavorite, this.onEddit}){
+  Vinho Function(int id) att;
+  InfoModal({this.vinho, this.onDelete, this.onFavorite, this.onEddit, this.att}){
     imageExist = paisesController.imageExist(vinho);
   }
   @override
-  _InfoModalState createState() => _InfoModalState();
+  _InfoModalState createState() => _InfoModalState(vinho);
 }
 
 class _InfoModalState extends State<InfoModal> {
-  bool comentarioOn = false;
+  Vinho vinho;
+  _InfoModalState(this.vinho);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 220 + (widget.imageExist ? MediaQuery.of(context).size.width/2 : 30.0) + (comentarioOn ? 110.0 : 0.0),
+      height: 375 + (widget.imageExist ? MediaQuery.of(context).size.width/2 : 30.0),
       child: Column(
         children: [
           widget.imageExist ? Container(
@@ -32,7 +34,7 @@ class _InfoModalState extends State<InfoModal> {
                 alignment: Alignment.bottomLeft,
                 children: [
                   Image.asset(
-                    widget.paisesController.backgroundPath(widget.vinho),
+                    widget.paisesController.backgroundPath(vinho),
                     fit: BoxFit.cover,
                   ),
                   Row(
@@ -50,7 +52,7 @@ class _InfoModalState extends State<InfoModal> {
                                 ),
                               ),
                               IconButton(
-                                  icon: Icon(widget.vinho.favorito ? Icons.favorite : Icons.favorite_outline, color: Theme.of(context).errorColor, size: 30,),
+                                  icon: Icon(vinho.favorito ? Icons.favorite : Icons.favorite_outline, color: Theme.of(context).errorColor, size: 30,),
                                   onPressed: (){
                                     setState(() {
                                       widget.onFavorite();
@@ -69,13 +71,18 @@ class _InfoModalState extends State<InfoModal> {
                                 ),
                               ),
                               IconButton(
-                                  icon: Icon(Icons.edit, color: Theme.of(context).accentColor, size: 30),
-                                  onPressed: () => Navigator.push(
+                                icon: Icon(Icons.edit, color: Theme.of(context).accentColor, size: 30),
+                                onPressed: () => Navigator.push(
                                     context, MaterialPageRoute(builder: (context) => WineForm(
-                                      vinho: widget.vinho,
-                                      onEddit: (Vinho v) => widget.onEddit(v),
-                                    ))
-                                  ),
+                                  vinho: vinho,
+                                  onEddit: (Vinho v) =>setState(() {
+                                    widget.onEddit(v);
+                                    setState(() {
+                                      vinho = widget.att(vinho.id);
+                                    });
+                                  }),
+                                ))
+                                ),
                               ),
                             ],
                           )
@@ -93,7 +100,7 @@ class _InfoModalState extends State<InfoModal> {
                           IconButton(
                               icon: Icon(Icons.delete, color: Theme.of(context).primaryColor, size: 30,),
                               onPressed: (){
-                                widget.onDelete(widget.vinho);
+                                widget.onDelete(vinho);
                               }
                           ),
                         ],
@@ -108,7 +115,7 @@ class _InfoModalState extends State<InfoModal> {
               Row(
                 children: [
                   IconButton(
-                      icon: Icon(widget.vinho.favorito ? Icons.favorite : Icons.favorite_outline, color: Theme.of(context).errorColor, size: 30,),
+                      icon: Icon(vinho.favorito ? Icons.favorite : Icons.favorite_outline, color: Theme.of(context).errorColor, size: 30,),
                       onPressed: (){
                         setState(() {
                           widget.onFavorite();
@@ -119,8 +126,13 @@ class _InfoModalState extends State<InfoModal> {
                     icon: Icon(Icons.edit, color: Theme.of(context).accentColor, size: 30),
                     onPressed: () => Navigator.push(
                         context, MaterialPageRoute(builder: (context) => WineForm(
-                      vinho: widget.vinho,
-                      onEddit: (Vinho v) => widget.onEddit(v),
+                      vinho: vinho,
+                      onEddit: (Vinho v) {
+                        widget.onEddit(v);
+                        setState(() {
+                          vinho = widget.att(vinho.id);
+                        });
+                      },
                     ))
                     ),
                   ),
@@ -129,7 +141,7 @@ class _InfoModalState extends State<InfoModal> {
               IconButton(
                   icon: Icon(Icons.delete, color: Theme.of(context).primaryColor, size: 30,),
                   onPressed: (){
-                    widget.onDelete(widget.vinho);
+                    widget.onDelete(vinho);
                   }
               ),
             ],
@@ -138,11 +150,11 @@ class _InfoModalState extends State<InfoModal> {
           ListTile(
             contentPadding: EdgeInsets.fromLTRB(15, 0, 15, 0),
             title: AutoSizeText(
-              widget.vinho.nome,
+              vinho.nome,
               maxLines: 1,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25
               ),
             ),
             subtitle: widget.imageExist
@@ -160,7 +172,7 @@ class _InfoModalState extends State<InfoModal> {
                         Container(
                           height:27,
                           child: Image.asset(
-                            widget.paisesController.imagePath(widget.vinho),
+                            widget.paisesController.imagePath(vinho),
                             fit: BoxFit.cover,
                           ),
                         )
@@ -168,100 +180,101 @@ class _InfoModalState extends State<InfoModal> {
                     ),
                     SizedBox(width:widget.imageExist ? 10 : 0, height: 1,),
                     Text(
-                      widget.vinho.pais,
+                      vinho.pais,
                       style: TextStyle(fontSize: 18),
                     ),
                   ],
                 )
             ): Text(
-              widget.vinho.pais,
+              vinho.pais,
               style: TextStyle(fontSize: 18),
             ),
           ),
           const Divider(thickness: 1,height: 1,),
           Padding(
-            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-            child: LayoutBuilder(
-              builder: (ctx, constraints){
-                return Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Avaliação",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey[600]
+              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+              child: LayoutBuilder(
+                builder: (ctx, constraints){
+                  return Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Avaliação",
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[600]
+                            ),
                           ),
-                        ),
-                        RatingBar.builder(
-                          itemSize: (constraints.maxWidth*9)/100,
-                          unratedColor: Colors.grey[300],
-                          initialRating: 0,
-                          minRating: 0,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 10,
+                          RatingBar.builder(
+                            itemSize: (constraints.maxWidth*9)/100,
+                            unratedColor: Colors.grey[300],
+                            initialRating: vinho.nota,
+                            minRating: 0,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 0),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 10,
+                            ),
+                            onRatingUpdate: (rating) {
+                              vinho.nota = rating;
+                              widget.onEddit(vinho);
+                            },
                           ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: (constraints.maxWidth*2)/20,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Tipo",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey[600]
+                        ],
+                      ),
+                      SizedBox(width: (constraints.maxWidth*2)/20,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Tipo",
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[600]
+                            ),
                           ),
-                        ),
-                        AutoSizeText(
-                          widget.vinho.tipo,
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold
+                          AutoSizeText(
+                            vinho.tipo,
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold
+                            ),
+                            maxLines: 1,
                           ),
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              },
-            )
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              )
           ),
           const Divider(thickness: 1, height: 1,),
           Padding(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: LayoutBuilder(
                 builder: (ctx, constraints){
                   return Row(
                     children: [
                       Container(
-                          width:(constraints.maxWidth*9)/20,
-                          child: Column(
+                        width:(constraints.maxWidth*9)/20,
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Localização",
+                              "Ano",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.grey[600]
                               ),
                             ),
                             AutoSizeText(
-                              widget.vinho.localizacao,
+                              vinho.ano.toString(),
                               style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold
@@ -274,27 +287,25 @@ class _InfoModalState extends State<InfoModal> {
                       SizedBox(width: (constraints.maxWidth*2)/20, height: 1,),
                       Container(
                         width: (constraints.maxWidth*9)/20,
-                        child: FittedBox(
-                          child: FlatButton(
-                            onPressed: (){
-                              setState(() {
-                                comentarioOn = !comentarioOn;
-                              });
-                            },
-                            padding: EdgeInsets.all(0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Comentario",
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Icon(comentarioOn ?Icons.arrow_drop_up : Icons.arrow_drop_down),
-                              ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Localização",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.grey[600]
+                              ),
                             ),
-                          ),
+                            AutoSizeText(
+                              vinho.localizacao,
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold
+                              ),
+                              maxLines: 1,
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -303,26 +314,30 @@ class _InfoModalState extends State<InfoModal> {
               )
           ),
           const Divider(thickness: 1, height: 1,),
-          comentarioOn
-          ? Padding(
-            padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-            child: Container(
-              height: 95,
-              child: ListView(
-                children: [
-                  SizedBox(height: 2),
-                  Text(
-                    widget.vinho.comentario == "" ? "Parece que este vinho não tem um comentario" : widget.vinho.comentario,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: widget.vinho.comentario == "" ? Colors.grey : Colors.black
+          Padding(
+              padding: EdgeInsets.fromLTRB(15,15, 15, 5),
+              child: Container(
+                height: 135,
+                child: ListView(
+                  children: [
+                    Text(
+                      "Comentario",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
+                    SizedBox(height: 3),
+                    Text(
+                      vinho.comentario == "" ? "Parece que este vinho não tem um comentario! Clice no botão de editar acima para colocar um." : vinho.comentario,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: vinho.comentario == "" ? Colors.grey : Colors.grey[700]
+                      ),
+                    ),
+                  ],
+                ),
+              )
           )
-          : SizedBox(height: 0, width: 0,),
         ],
       ),
     );

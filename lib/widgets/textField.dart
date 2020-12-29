@@ -31,7 +31,7 @@ class _TextFildState extends State<TextFild> {
               keyboardType: widget.keyboardType,
               enabled: true,
               controller: widget.controller,
-              validator: (s) {
+              validator: widget.errorText == "" ? null : (s) {
                 if (s.isEmpty)
                   return widget.errorText;
                 else

@@ -2,40 +2,50 @@ import '../models/vinho.dart';
 class ListController{
   List<Vinho> _vinhos = [
     Vinho(
-      nome: "Taylor’s Fine Tawny",
-      idade: 20,
-      pais: "Portugal",
-      tipo: "Porto",
-      localizacao: "9a"
+        id: 0,
+        nome: "Taylor’s Fine Tawny",
+        ano: 2020,
+        pais: "Portugal",
+        tipo: "Porto",
+        localizacao: "9a",
+        nota: 0.0
     ),
     Vinho(
-      nome: "Marchesi del Salento",
-      idade: 1,
-      pais: "Itália",
-      tipo: "Tinto",
-      localizacao: "9a"
+        id: 1,
+        nome: "Marchesi del Salento",
+        ano: 2017,
+        pais: "Itália",
+        tipo: "Tinto",
+        localizacao: "9a",
+        nota: 0.0
     ),
     Vinho(
-      nome: "Les Templiers Cabernet Sauvignon",
-      idade: 20,
-      pais: "França",
-      tipo: "Tinto Seco",
-      localizacao: "9a"
+        id: 2,
+        nome: "Les Templiers Cabernet Sauvignon",
+        ano: 2019,
+        pais: "França",
+        tipo: "Tinto Seco",
+        localizacao: "9a",
+        nota: 0.0
     ),
     Vinho(
-      nome: "Famiglia Castellani Pinoti Grigio",
-      idade: 1,
-      pais: "Itália",
-      tipo: "Branco",
-      localizacao: "9a"
+        id: 3,
+        nome: "Famiglia Castellani Pinoti Grigio",
+        ano: 2020,
+        pais: "Itália",
+        tipo: "Branco",
+        localizacao: "9a",
+        nota: 0.0
     ),
     Vinho(
-      nome: "Carnivor Cabernet Sauvignon",
-      idade: 2017,
-      pais: "Estados Unidos",
-      tipo: "Tinto Meio Seco",
-      localizacao: "9a",
-      comentario: "Elaborado com a Cabernet Sauvignon, considerada a rainha das uvas tintas, esse rótulo faz referência a ousadia e a audácia do topo da cadeia alimentar, os carnívoros. Com um estilo que agrada os mais diversos paladares, o Carnivor reúne tudo o que você procura em um vinho: personalidade, potência e sabor persistente."
+        id: 4,
+        nome: "Carnivor Cabernet Sauvignon",
+        ano: 2017,
+        pais: "Estados Unidos",
+        tipo: "Tinto Meio Seco",
+        localizacao: "9a",
+        nota: 0.0,
+        comentario: "Elaborado com a Cabernet Sauvignon, considerada a rainha das uvas tintas, esse rótulo faz referência a ousadia e a audácia do topo da cadeia alimentar, os carnívoros. Com um estilo que agrada os mais diversos paladares, o Carnivor reúne tudo o que você procura em um vinho: personalano, potência e sabor persistente."
     ),
   ];
   String _order = "nm";
@@ -69,7 +79,7 @@ class ListController{
           int nomeCompare = a.nome.compareTo(b.nome);
           return nomeCompare == 0 ? a.tipo.compareTo(b.tipo) :nomeCompare;
         });
-      break;
+        break;
       case "tp":
         _vinhos.sort((a, b) {
           if(_favoritePriority && a.favorito ^ b.favorito){
@@ -78,7 +88,7 @@ class ListController{
           int tipoCompare = a.tipo.compareTo(b.tipo);
           return tipoCompare == 0 ? a.nome.compareTo(b.nome) : tipoCompare;
         });
-      break;
+        break;
       case "pa":
         _vinhos.sort((a, b) {
           if(_favoritePriority && a.favorito ^ b.favorito){
@@ -87,22 +97,37 @@ class ListController{
           int paisCompare = a.pais.compareTo(b.pais);
           return paisCompare == 0 ? a.nome.compareTo(b.nome) : paisCompare;
         });
-      break;
+        break;
     }
   }
-  Future<void> add(Vinho v) async{
-    vinhos.add(v);
+  int _lastId(){
+    int lastId = 0;
+    vinhos.forEach((v) {
+      if(v.id > lastId)
+        lastId = v.id;
+    });
+    return lastId;
   }
 
+  Future<void> add(Vinho v) async{
+    v.id = _lastId();
+    vinhos.add(v);
+  }
   void eddit(Vinho v, int index){
     vinhos[index] = v;
   }
-
   void remove(Vinho vinho){
     vinhos.removeWhere((v) => v.nome == vinho.nome &&  v.localizacao == vinho.localizacao);
   }
-
-  List<Vinho> search(string ){
-
+  Vinho search(int id){
+    List<Vinho> resultados = vinhos.where((v) => v.id == id).toList();
+    return resultados[0];
+  }
+  int searchIndex(int id){
+    for(int i=0; i<vinhos.length;i++){
+      if(vinhos[i].id == id)
+        return i;
+    }
+    return -1;
   }
 }
