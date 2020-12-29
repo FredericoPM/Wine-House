@@ -6,24 +6,35 @@ import '../controls/pesquisaAproximada.dart';
 
 class WineForm extends StatefulWidget {
   void Function(Vinho v) onAdd;
-  WineForm({this.onAdd});
+  void Function(Vinho v) onEddit;
+  Vinho vinho;
+  WineForm({this.onAdd, this.vinho, this.onEddit});
   @override
-  _WineFormState createState() => _WineFormState();
+  _WineFormState createState() => _WineFormState(vinho);
 }
 
 class _WineFormState extends State<WineForm> {
 
+  final _formKey = GlobalKey<FormState>();
   PesquisaAproximada pesquisa = PesquisaAproximada();
   PaisesController paisController = PaisesController();
-  final _formKey = GlobalKey<FormState>();
   TextEditingController _paisTextController = TextEditingController();
   TextEditingController _nomeController = TextEditingController();
   TextEditingController _tipoController = TextEditingController();
   TextEditingController _idadeController = TextEditingController();
   TextEditingController _localizacaoController = TextEditingController();
 
-
   final sizedBoxSpace = SizedBox(height: 12);
+  Vinho vinho;
+  _WineFormState(this.vinho){
+    if(vinho != null){
+      _paisTextController.text = vinho.pais;
+      _nomeController.text = vinho.nome;
+      _tipoController.text = vinho.tipo;
+      _idadeController.text = vinho.idade.toString();
+      _localizacaoController.text = vinho.localizacao;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +50,7 @@ class _WineFormState extends State<WineForm> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          "Novo vinho",
+          vinho == null ? "Novo vinho" : "Editar vinho",
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
@@ -137,12 +148,23 @@ class _WineFormState extends State<WineForm> {
                       ),
                       onPressed: (){
                         if (_formKey.currentState.validate()) {
-                          widget.onAdd(Vinho(
-                            nome: _nomeController.text,
-                            tipo: _tipoController.text,
-                            idade: int.parse(_idadeController.text),
-                            pais: _paisTextController.text,
-                          ));
+                          if(vinho == null){
+                            widget.onAdd(Vinho(
+                              nome: _nomeController.text,
+                              tipo: _tipoController.text,
+                              idade: int.parse(_idadeController.text),
+                              pais: _paisTextController.text,
+                              localizacao: _localizacaoController.text,
+                            ));
+                          }else{
+                            widget.onEddit(Vinho(
+                              nome: _nomeController.text,
+                              tipo: _tipoController.text,
+                              idade: int.parse(_idadeController.text),
+                              pais: _paisTextController.text,
+                              localizacao: _localizacaoController.text,
+                            ));
+                          }
                         }
                       }
                   ),

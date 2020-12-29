@@ -3,15 +3,18 @@ class PaisesController{
   List<Map> paisesDisponiveis = [
     {
       'pais' : 'França',
-      'imagem' : 'assets/images/franca.png',
+      'bandeira' : 'assets/images/franca.png',
+      'backGround' : 'assets/images/franca_background.png',
     },
     {
       'pais' : 'Itália',
-      'imagem' : 'assets/images/italia.png',
+      'bandeira' : 'assets/images/italia.png',
+      'backGround' : 'assets/images/italia_background.png',
     },
     {
       'pais' : 'Portugal',
-      'imagem' : 'assets/images/portugal.png',
+      'bandeira' : 'assets/images/portugal.png',
+      'backGround' : 'assets/images/portugal_background.png',
     },
   ];
 
@@ -24,7 +27,6 @@ class PaisesController{
     }
     return result;
   }
-
   String imagePath(Vinho vinho){
     bool result = false;
     int index = -1;
@@ -34,6 +36,17 @@ class PaisesController{
         index = i;
       }
     }
-    return paisesDisponiveis[index]['imagem'];
+    return paisesDisponiveis[index]['bandeira'];
+  }
+  String backgroundPath(Vinho vinho){
+    bool result = false;
+    int index = -1;
+    for(int i =0; i< paisesDisponiveis.length && !result; i++){
+      if(vinho.pais == paisesDisponiveis[i]['pais']){
+        result = true;
+        index = i;
+      }
+    }
+    return paisesDisponiveis[index]['backGround'];
   }
 }

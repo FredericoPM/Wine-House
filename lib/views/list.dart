@@ -8,7 +8,7 @@ import '../widgets/textField.dart';
 import 'wineForm.dart';
 import '../controls/pesquisaAproximada.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import '../widgets/infoModal.dart';
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
@@ -19,7 +19,6 @@ class _Main_listState extends State<Main_list> {
   TextEditingController _searchController = TextEditingController();
   ListController controller = ListController();
   List<Vinho> vinhos;
-
   void showFlushbar(BuildContext context, String text, var color){
     Flushbar(
       messageText: Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold),),
@@ -32,10 +31,46 @@ class _Main_listState extends State<Main_list> {
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
     )..show(context);
   }
+  void onFavorite(int index){
+    setState(() {
+      vinhos[index].favorito = !vinhos[index].favorito;
+      if(controller.favoritePriority)
+        controller.sort();
+    });
+  }
+  void _showModalBottomSheet(BuildContext context, int index) {
+    showModalBottomSheet<void>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(15.0),
+            topRight: const Radius.circular(15.0)
+        ),
+      ),
+      context: context,
+      builder: (context) {
+        return InfoModal(
+          vinho: vinhos[index],
+          onFavorite: () => onFavorite(index),
+          onDelete: (Vinho vinho) {
+            setState(() {
+              controller.remove(vinho);
+            });
+            Navigator.of(context).pop();
+            showFlushbar(context, "Vinho deletado com sucesso", Theme.of(context).errorColor);
+          },
+          onEddit: (Vinho v){
+            setState(() {
+              controller.eddit(v, index);
+            });
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
-    print("teste");
     vinhos = controller.vinhos;
     super.initState();
   }
@@ -232,13 +267,8 @@ class _Main_listState extends State<Main_list> {
                       itemBuilder: (ctx, index) {
                         return ListCard(
                           vinho: vinhos[index],
-                          onFavorite: () {
-                            setState(() {
-                              vinhos[index].favorito = !vinhos[index].favorito;
-                              if(controller.favoritePriority)
-                                controller.sort();
-                            });
-                          },
+                          onFavorite: () => onFavorite(index),
+                          onTap: (BuildContext context) => _showModalBottomSheet(context, index) ,
                         );
                       }
                   ),

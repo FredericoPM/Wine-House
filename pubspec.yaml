@@ -51,6 +51,9 @@ flutter:
     - assets/images/portugal.png
     - assets/images/franca.png
     - assets/images/italia.png
+    - assets/images/portugal_background.png
+    - assets/images/franca_background.png
+    - assets/images/italia_background.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

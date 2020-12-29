@@ -2,28 +2,32 @@ import '../models/vinho.dart';
 class ListController{
   List<Vinho> _vinhos = [
     Vinho(
-        nome: "Taylor’s Fine Tawny",
-        idade: 20,
-        pais: "Portugal",
-        tipo: "Porto",
+      nome: "Taylor’s Fine Tawny",
+      idade: 20,
+      pais: "Portugal",
+      tipo: "Porto",
+      localizacao: "9a"
     ),
     Vinho(
       nome: "Marchesi del Salento",
       idade: 1,
       pais: "Itália",
       tipo: "Tinto",
+      localizacao: "9a"
     ),
     Vinho(
       nome: "Les Templiers Cabernet Sauvignon",
       idade: 20,
       pais: "França",
       tipo: "Tinto Seco",
+      localizacao: "9a"
     ),
     Vinho(
       nome: "Famiglia Castellani Pinoti Grigio",
       idade: 1,
       pais: "Itália",
       tipo: "Branco",
+      localizacao: "9a"
     ),
   ];
   String _order = "nm";
@@ -82,12 +86,12 @@ class ListController{
     vinhos.add(v);
   }
 
-  void eddit(int index, Vinho v){
-
+  void eddit(Vinho v, int index){
+    vinhos[index] = v;
   }
 
-  void remove(int index){
-
+  void remove(Vinho vinho){
+    vinhos.removeWhere((v) => v.nome == vinho.nome &&  v.localizacao == vinho.localizacao);
   }
 
   List<Vinho> search(string ){
