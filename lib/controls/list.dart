@@ -29,6 +29,14 @@ class ListController{
       tipo: "Branco",
       localizacao: "9a"
     ),
+    Vinho(
+      nome: "Carnivor Cabernet Sauvignon",
+      idade: 2017,
+      pais: "Estados Unidos",
+      tipo: "Tinto Meio Seco",
+      localizacao: "9a",
+      comentario: "Elaborado com a Cabernet Sauvignon, considerada a rainha das uvas tintas, esse rótulo faz referência a ousadia e a audácia do topo da cadeia alimentar, os carnívoros. Com um estilo que agrada os mais diversos paladares, o Carnivor reúne tudo o que você procura em um vinho: personalidade, potência e sabor persistente."
+    ),
   ];
   String _order = "nm";
   bool _favoritePriority = false;

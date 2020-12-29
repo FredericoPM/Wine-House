@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flushbar/flushbar.dart';
+import '../controls/pesquisaAproximada.dart';
 import '../controls/list.dart';
 import '../models/vinho.dart';
+import 'wineForm.dart';
 import '../widgets/listCard.dart';
 import '../widgets/textField.dart';
-import 'wineForm.dart';
-import '../controls/pesquisaAproximada.dart';
-import 'package:flushbar/flushbar.dart';
 import '../widgets/infoModal.dart';
 class Main_list extends StatefulWidget {
   @override
@@ -31,15 +31,17 @@ class _Main_listState extends State<Main_list> {
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
     )..show(context);
   }
-  void onFavorite(int index){
+  void onFavorite(Vinho v){
+    int index = controller.vinhos.indexOf(v);
     setState(() {
       vinhos[index].favorito = !vinhos[index].favorito;
       if(controller.favoritePriority)
         controller.sort();
     });
   }
-  void _showModalBottomSheet(BuildContext context, int index) {
+  void _showModalBottomSheet(BuildContext context, Vinho vinho) {
     showModalBottomSheet<void>(
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(15.0),
@@ -49,8 +51,8 @@ class _Main_listState extends State<Main_list> {
       context: context,
       builder: (context) {
         return InfoModal(
-          vinho: vinhos[index],
-          onFavorite: () => onFavorite(index),
+          vinho: vinho,
+          onFavorite: () => onFavorite(vinho),
           onDelete: (Vinho vinho) {
             setState(() {
               controller.remove(vinho);
@@ -60,7 +62,8 @@ class _Main_listState extends State<Main_list> {
           },
           onEddit: (Vinho v){
             setState(() {
-              controller.eddit(v, index);
+              controller.eddit(v, controller.vinhos.indexOf(vinho));
+              controller.sort();
             });
             Navigator.of(context).pop();
           },
@@ -267,8 +270,8 @@ class _Main_listState extends State<Main_list> {
                       itemBuilder: (ctx, index) {
                         return ListCard(
                           vinho: vinhos[index],
-                          onFavorite: () => onFavorite(index),
-                          onTap: (BuildContext context) => _showModalBottomSheet(context, index) ,
+                          onFavorite: () => onFavorite(vinhos[index]),
+                          onTap: (BuildContext context) => _showModalBottomSheet(context, vinhos[index]) ,
                         );
                       }
                   ),

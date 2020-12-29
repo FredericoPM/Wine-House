@@ -27,6 +27,7 @@ class _TextFildState extends State<TextFild> {
               }
             },
             child:TextFormField(
+              maxLines: null,
               keyboardType: widget.keyboardType,
               enabled: true,
               controller: widget.controller,

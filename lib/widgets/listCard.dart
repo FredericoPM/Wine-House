@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../models/vinho.dart';
 import '../controls/paises.dart';
@@ -42,13 +43,12 @@ class ListCard extends StatelessWidget {
               ),
             )
           ),
-        title: vinho.nome.length * 16 < MediaQuery.of(context).size.width
-        ? Text(
-            vinho.nome, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
-        ): FittedBox(
-              child: Text(vinho.nome, style: TextStyle(fontWeight: FontWeight.bold))
+        title: AutoSizeText(
+          vinho.nome, style:
+          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          maxLines: 1,
         ),
-        subtitle: Text("${vinho.pais} | ${vinho.tipo}"),
+        subtitle: AutoSizeText("${vinho.pais} | ${vinho.tipo}", maxLines: 1,),
         trailing: IconButton(
           icon: Icon(
             vinho.favorito ? Icons.favorite: Icons.favorite_outline,

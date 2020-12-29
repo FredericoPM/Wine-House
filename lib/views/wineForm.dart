@@ -163,6 +163,7 @@ class _WineFormState extends State<WineForm> {
                               idade: int.parse(_idadeController.text),
                               pais: _paisTextController.text,
                               localizacao: _localizacaoController.text,
+                              favorito: vinho.favorito,
                             ));
                           }
                         }
