@@ -10,9 +10,8 @@ class InfoModal extends StatefulWidget {
   PaisesController paisesController = PaisesController();
   void Function() onFavorite;
   void Function(Vinho vinho) onDelete;
-  void Function(Vinho vinho) onEddit;
-  Vinho Function(int id) att;
-  InfoModal({this.vinho, this.onDelete, this.onFavorite, this.onEddit, this.att}){
+  Vinho Function(Vinho vinho) onEddit;
+  InfoModal({this.vinho, this.onDelete, this.onFavorite, this.onEddit}){
     imageExist = paisesController.imageExist(vinho);
   }
   @override
@@ -76,9 +75,8 @@ class _InfoModalState extends State<InfoModal> {
                                     context, MaterialPageRoute(builder: (context) => WineForm(
                                   vinho: vinho,
                                   onEddit: (Vinho v) =>setState(() {
-                                    widget.onEddit(v);
                                     setState(() {
-                                      vinho = widget.att(vinho.id);
+                                      vinho = widget.onEddit(v);
                                     });
                                   }),
                                 ))
@@ -128,9 +126,8 @@ class _InfoModalState extends State<InfoModal> {
                         context, MaterialPageRoute(builder: (context) => WineForm(
                       vinho: vinho,
                       onEddit: (Vinho v) {
-                        widget.onEddit(v);
                         setState(() {
-                          vinho = widget.att(vinho.id);
+                          vinho = widget.onEddit(v);
                         });
                       },
                     ))

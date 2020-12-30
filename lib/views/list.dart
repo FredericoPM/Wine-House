@@ -18,7 +18,7 @@ class _Main_listState extends State<Main_list> {
   PesquisaAproximada pesquisa = new PesquisaAproximada();
   TextEditingController _searchController = TextEditingController();
   ListController controller = ListController();
-  List<Vinho> vinhos;
+  List<Vinho> vinhos = [];
   void showFlushbar(BuildContext context, String text, var color){
     Flushbar(
       messageText: Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold),),
@@ -32,12 +32,8 @@ class _Main_listState extends State<Main_list> {
     )..show(context);
   }
   void onFavorite(Vinho v){
-    int index = controller.vinhos.indexOf(v);
-    setState(() {
-      vinhos[index].favorito = !vinhos[index].favorito;
-      if(controller.favoritePriority)
-        controller.sort();
-    });
+    v.favorito = !v.favorito;
+    controller.update(v).then((value) => setState(() {vinhos = controller.vinhos;}));
   }
   void _showModalBottomSheet(BuildContext context, Vinho vinho) {
     showModalBottomSheet<void>(
@@ -54,30 +50,29 @@ class _Main_listState extends State<Main_list> {
           vinho: vinho,
           onFavorite: () => onFavorite(vinho),
           onDelete: (Vinho vinho) {
-            setState(() {
-              controller.remove(vinho);
-            });
+            controller.remove(vinho).then((_) => setState(() {vinhos = controller.vinhos;}));
             Navigator.of(context).pop();
             showFlushbar(context, "Vinho deletado com sucesso!", Theme.of(context).errorColor);
           },
           onEddit: (Vinho v){
             setState(() {
-              controller.eddit(v, controller.searchIndex(vinho.id));
+              controller.update(v);
               controller.sort();
             });
-          },
-          att: (int id){
-            return controller.search(id);
+            return v;
           },
         );
       },
     );
   }
-
+  Future<void> loadData() async{
+    await controller.getAll();
+    setState(() {vinhos = controller.vinhos;});
+  }
   @override
   void initState() {
-    vinhos = controller.vinhos;
     super.initState();
+    loadData();
   }
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -222,8 +217,7 @@ class _Main_listState extends State<Main_list> {
                               Navigator.push(
                                 context, MaterialPageRoute(builder: (context) => WineForm(
                                     onAdd: (Vinho v) {
-                                      controller.add(v);
-                                      controller.sort().then((value) => setState(() {vinhos = controller.vinhos;}));
+                                      controller.add(v).then((value) => setState(() {vinhos = controller.vinhos;}));
                                       Navigator.of(context).pop();
                                       showFlushbar(context, "Novo vinho cadastrado com sucesso!", Theme.of(context).accentColor);
                                     }

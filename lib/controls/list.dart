@@ -1,4 +1,5 @@
 import '../models/vinho.dart';
+import '../repositories/vinhos_SQLite.dart';
 class ListController{
   List<Vinho> _vinhos = [
     Vinho(
@@ -50,6 +51,7 @@ class ListController{
   ];
   String _order = "nm";
   bool _favoritePriority = false;
+  VinhosSQLite dataBase = VinhosSQLite();
 
   List<Vinho> get vinhos{
     return this._vinhos;
@@ -100,34 +102,35 @@ class ListController{
         break;
     }
   }
-  int _lastId(){
-    int lastId = 0;
-    vinhos.forEach((v) {
-      if(v.id > lastId)
-        lastId = v.id;
-    });
-    return lastId;
+  Future<void> getAll() async{
+    if(dataBase.db == null)
+      await dataBase.DBconstructor();
+    _vinhos = await dataBase.getAll();
+    await sort();
   }
 
   Future<void> add(Vinho v) async{
-    v.id = _lastId();
-    vinhos.add(v);
+    if(dataBase.db == null)
+      await dataBase.DBconstructor();
+    await dataBase.insert(v);
+    await getAll();
   }
-  void eddit(Vinho v, int index){
-    vinhos[index] = v;
+
+  Future<void> update(Vinho v) async{
+    if(dataBase.db == null)
+      await dataBase.DBconstructor();
+    await dataBase.update(v);
+    await getAll();
   }
-  void remove(Vinho vinho){
-    vinhos.removeWhere((v) => v.nome == vinho.nome &&  v.localizacao == vinho.localizacao);
+
+  Future<void> remove(Vinho vinho) async{
+    if(dataBase.db == null)
+      await dataBase.DBconstructor();
+    await dataBase.delete(vinho.id);
+    await getAll();
   }
   Vinho search(int id){
-    List<Vinho> resultados = vinhos.where((v) => v.id == id).toList();
+    List<Vinho> resultados = vinhos.where((element) => element.id == id).toList();
     return resultados[0];
-  }
-  int searchIndex(int id){
-    for(int i=0; i<vinhos.length;i++){
-      if(vinhos[i].id == id)
-        return i;
-    }
-    return -1;
   }
 }
