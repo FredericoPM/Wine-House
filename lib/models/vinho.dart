@@ -15,7 +15,7 @@ class Vinho {
     this.ano,
     this.pais,
     this.tipo,
-    this.localizacao = "Não informada",
+    this.localizacao,
     this.nota = 0.0,
     this.comentario = "",
     this.favorito = false,
@@ -24,6 +24,8 @@ class Vinho {
     nome = nome[0].toUpperCase() + nome.substring(1);
     pais = pais[0].toUpperCase() + pais.substring(1);
     tipo = tipo[0].toUpperCase() + tipo.substring(1);
+    if(localizacao == "")
+      localizacao = "Não informada";
     if(ano == -1){
       ano = DateTime.now().year;
     }
