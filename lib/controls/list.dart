@@ -1,54 +1,7 @@
 import '../models/vinho.dart';
 import '../repositories/vinhos_SQLite.dart';
 class ListController{
-  List<Vinho> _vinhos = [
-    Vinho(
-        id: 0,
-        nome: "Taylor’s Fine Tawny",
-        ano: 2020,
-        pais: "Portugal",
-        tipo: "Porto",
-        localizacao: "9a",
-        nota: 0.0
-    ),
-    Vinho(
-        id: 1,
-        nome: "Marchesi del Salento",
-        ano: 2017,
-        pais: "Itália",
-        tipo: "Tinto",
-        localizacao: "9a",
-        nota: 0.0
-    ),
-    Vinho(
-        id: 2,
-        nome: "Les Templiers Cabernet Sauvignon",
-        ano: 2019,
-        pais: "França",
-        tipo: "Tinto Seco",
-        localizacao: "9a",
-        nota: 0.0
-    ),
-    Vinho(
-        id: 3,
-        nome: "Famiglia Castellani Pinoti Grigio",
-        ano: 2020,
-        pais: "Itália",
-        tipo: "Branco",
-        localizacao: "9a",
-        nota: 0.0
-    ),
-    Vinho(
-        id: 4,
-        nome: "Carnivor Cabernet Sauvignon",
-        ano: 2017,
-        pais: "Estados Unidos",
-        tipo: "Tinto Meio Seco",
-        localizacao: "9a",
-        nota: 0.0,
-        comentario: "Elaborado com a Cabernet Sauvignon, considerada a rainha das uvas tintas, esse rótulo faz referência a ousadia e a audácia do topo da cadeia alimentar, os carnívoros. Com um estilo que agrada os mais diversos paladares, o Carnivor reúne tudo o que você procura em um vinho: personalano, potência e sabor persistente."
-    ),
-  ];
+  List<Vinho> _vinhos = [];
   String _order = "nm";
   bool _favoritePriority = false;
   VinhosSQLite dataBase = VinhosSQLite();
