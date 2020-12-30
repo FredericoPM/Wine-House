@@ -36,74 +36,77 @@ class _InfoModalState extends State<InfoModal> {
                     widget.paisesController.backgroundPath(vinho),
                     fit: BoxFit.cover,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Opacity(
-                                opacity: 0.7,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Opacity(
+                                  opacity: 0.7,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                  icon: Icon(vinho.favorito ? Icons.favorite : Icons.favorite_outline, color: Theme.of(context).errorColor, size: 30,),
-                                  onPressed: (){
-                                    setState(() {
-                                      widget.onFavorite();
-                                    });
-                                  }
-                              ),
-                            ],
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Opacity(
-                                opacity: 0.7,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
+                                IconButton(
+                                    icon: Icon(vinho.favorito ? Icons.favorite : Icons.favorite_outline, color: Theme.of(context).errorColor, size: 30,),
+                                    onPressed: (){
+                                      setState(() {
+                                        widget.onFavorite();
+                                      });
+                                    }
                                 ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.edit, color: Theme.of(context).accentColor, size: 30),
-                                onPressed: () => Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => WineForm(
-                                  vinho: vinho,
-                                  onEddit: (Vinho v) =>setState(() {
-                                    setState(() {
-                                      vinho = widget.onEddit(v);
-                                    });
-                                  }),
-                                ))
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Opacity(
-                            opacity: 0.7,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
+                              ],
                             ),
-                          ),
-                          IconButton(
-                              icon: Icon(Icons.delete, color: Theme.of(context).primaryColor, size: 30,),
-                              onPressed: (){
-                                widget.onDelete(vinho);
-                              }
-                          ),
-                        ],
-                      ),
-                    ],
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Opacity(
+                                  opacity: 0.7,
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.edit, color: Theme.of(context).accentColor, size: 30),
+                                  onPressed: () => Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => WineForm(
+                                    vinho: vinho,
+                                    onEddit: (Vinho v) =>setState(() {
+                                      setState(() {
+                                        vinho = widget.onEddit(v);
+                                      });
+                                    }),
+                                  ))
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Opacity(
+                              opacity: 0.7,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                              ),
+                            ),
+                            IconButton(
+                                icon: Icon(Icons.delete, color: Theme.of(context).primaryColor, size: 30,),
+                                onPressed: (){
+                                  widget.onDelete(vinho);
+                                }
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   )
                 ],
               )

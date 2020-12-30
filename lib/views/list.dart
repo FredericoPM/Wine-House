@@ -78,14 +78,14 @@ class _Main_listState extends State<Main_list> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
-    final availableSpace = MediaQuery.of(context).size.height - 145 - MediaQuery.of(context).padding.top;
+    final availableSpace = MediaQuery.of(context).size.height - 155 - MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(145.0),
+        preferredSize: Size.fromHeight(155.0),
         child: Container(
             width: double.infinity,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(15, 35, 15, 15),
+              padding: EdgeInsets.fromLTRB(15, 45, 15, 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
