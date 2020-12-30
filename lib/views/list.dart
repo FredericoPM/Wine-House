@@ -147,14 +147,13 @@ class _Main_listState extends State<Main_list> {
                           ),
                           padding: EdgeInsets.zero,
                           onSelected: (value) {
-                            setState(() {
-                              if(value == "fv"){
-                                controller.invertFavoritePriority();
-                              }else{
-                                controller.order = value;
-                              }
-                              controller.sort();
-                            });
+                            if(value == "fv"){
+                              controller.invertFavoritePriority();
+                            }else{
+                              controller.order = value;
+                            }
+                            controller.sort();
+                            setState(() {vinhos = controller.vinhos;});
                           },
                           itemBuilder: (context) => <PopupMenuEntry<String>>[
                             PopupMenuItem<String>(
