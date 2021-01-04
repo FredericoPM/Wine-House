@@ -19,6 +19,7 @@ class _Main_listState extends State<Main_list> {
   TextEditingController _searchController = TextEditingController();
   ListController controller = ListController();
   List<Vinho> vinhos = [];
+  List<int> selecionados = [];
   void showFlushbar(BuildContext context, String text, var color){
     Flushbar(
       messageText: Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold),),
@@ -49,8 +50,8 @@ class _Main_listState extends State<Main_list> {
         return InfoModal(
           vinho: vinho,
           onFavorite: () => onFavorite(vinho),
-          onDelete: (Vinho vinho) {
-            controller.remove(vinho).then((_) => setState(() {vinhos = controller.vinhos;}));
+          onDelete: (int id) {
+            controller.remove(id).then((_) => setState(() {vinhos = controller.vinhos;}));
             Navigator.of(context).pop();
             showFlushbar(context, "Vinho deletado com sucesso!", Theme.of(context).errorColor);
           },
@@ -134,7 +135,8 @@ class _Main_listState extends State<Main_list> {
                         fontSize: 24
                     ),
                   ),
-                  Container(
+                  selecionados.length == 0
+                  ? Container(
                     width: 96,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,6 +229,30 @@ class _Main_listState extends State<Main_list> {
                       ],
                     ),
                   )
+                  :Container(
+                    width: 96,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.cancel_outlined, color: Theme.of(context).primaryColor,),
+                          onPressed: (){setState(() {selecionados.clear();});}
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,),
+                          onPressed:(){
+                            setState(() {
+                              selecionados.forEach((id) {
+                                controller.remove(id).then((_) => setState(() {vinhos = controller.vinhos;}));
+                              });
+                              selecionados.clear();
+                              showFlushbar(context, "Vinho(s) deletado(s) com sucesso!", Theme.of(context).errorColor);
+                            });
+                          }
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -265,8 +291,24 @@ class _Main_listState extends State<Main_list> {
                       itemBuilder: (ctx, index) {
                         return ListCard(
                           vinho: vinhos[index],
+                          selected: selecionados.indexOf(vinhos[index].id) != -1,
                           onFavorite: () => onFavorite(vinhos[index]),
-                          onTap: (BuildContext context) => _showModalBottomSheet(context, vinhos[index]) ,
+                          onTap: (BuildContext context, bool selected) {
+                            if(selected)
+                              setState(() {selecionados.remove(vinhos[index].id);});
+                            else if(selecionados.length != 0)
+                              setState(() {selecionados.add(vinhos[index].id);});
+                            else
+                            _showModalBottomSheet(context, vinhos[index]);
+                          },
+                          onLongPress: (bool selected){
+                            setState(() {
+                              if(selected)
+                                selecionados.remove(vinhos[index].id);
+                              else
+                                selecionados.add(vinhos[index].id);
+                            });
+                          },
                         );
                       }
                   ),

@@ -9,7 +9,7 @@ class InfoModal extends StatefulWidget {
   bool imageExist;
   PaisesController paisesController = PaisesController();
   void Function() onFavorite;
-  void Function(Vinho vinho) onDelete;
+  void Function(int id) onDelete;
   Vinho Function(Vinho vinho) onEddit;
   InfoModal({this.vinho, this.onDelete, this.onFavorite, this.onEddit}){
     imageExist = paisesController.imageExist(vinho);
@@ -100,7 +100,7 @@ class _InfoModalState extends State<InfoModal> {
                             IconButton(
                                 icon: Icon(Icons.delete, color: Theme.of(context).primaryColor, size: 30,),
                                 onPressed: (){
-                                  widget.onDelete(vinho);
+                                  widget.onDelete(vinho.id);
                                 }
                             ),
                           ],
@@ -141,7 +141,7 @@ class _InfoModalState extends State<InfoModal> {
               IconButton(
                   icon: Icon(Icons.delete, color: Theme.of(context).primaryColor, size: 30,),
                   onPressed: (){
-                    widget.onDelete(vinho);
+                    widget.onDelete(vinho.id);
                   }
               ),
             ],

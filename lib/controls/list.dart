@@ -76,10 +76,10 @@ class ListController{
     await getAll();
   }
 
-  Future<void> remove(Vinho vinho) async{
+  Future<void> remove(int id) async{
     if(dataBase.db == null)
       await dataBase.DBconstructor();
-    await dataBase.delete(vinho.id);
+    await dataBase.delete(id);
     await getAll();
   }
   Vinho search(int id){

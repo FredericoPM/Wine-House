@@ -3,61 +3,70 @@ import 'package:flutter/material.dart';
 import '../models/vinho.dart';
 import '../controls/paises.dart';
 class ListCard extends StatelessWidget {
-  int index = 0;
-  PaisesController paisesController = PaisesController();
   final Vinho vinho;
   void Function() onFavorite;
-  void Function(BuildContext context) onTap;
-  ListCard({this.vinho, this.onFavorite, this.onTap});
-
-
+  void Function(bool selected) onLongPress;
+  void Function(BuildContext context, bool selected) onTap;
+  bool selected;
+  ListCard({this.vinho, this.onFavorite, this.onTap, this.onLongPress, this.selected});
+  int index = 0;
+  PaisesController paisesController = PaisesController();
   @override
   Widget build(BuildContext context) {
-
-    return Card(
-      elevation: 4,
-      child: ListTile(
-        contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-        onTap: () => onTap(context),
-        leading: paisesController.imageExist(vinho)
-          ? Stack(
-          alignment: Alignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-              Container(
-                height:35,
-                child: Image.asset(
-                  paisesController.imagePath(vinho),
-                  fit: BoxFit.cover,
+    return GestureDetector(
+      onLongPress:() => onLongPress(selected),
+      child: Card(
+          elevation: 4,
+          color: selected ? Color(0xFFe2fec9) : Colors.white,
+          child: ListTile(
+            contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+            onTap: () => onTap(context, selected),
+            leading: paisesController.imageExist(vinho)
+                ? Stack(
+              alignment: Alignment.center,
+              children: [
+                CircleAvatar(
+                  backgroundColor: selected ? Theme.of(context).accentColor : Theme.of(context).primaryColor,
                 ),
-              )
-            ],
-          ) : CircleAvatar(
-            backgroundColor: Theme.of(context).primaryColor,
-            child: FittedBox(
-              child: Icon(
-                Icons.place_outlined,
-                color: Colors.white,
+                selected
+                ? Icon(
+                  Icons.check,
+                  color: Colors.white,
+                )
+                : Container(
+                  height:35,
+                  child: Image.asset(
+                    paisesController.imagePath(vinho),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ) : CircleAvatar(
+                backgroundColor: selected ? Theme.of(context).accentColor : Theme.of(context).primaryColor,
+                child: FittedBox(
+                  child: Icon(
+                    selected ?Icons.check: Icons.place_outlined,
+                    color: Colors.white,
+                  ),
+                )
+            ),
+            title: AutoSizeText(
+              vinho.nome, style:
+            TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              maxLines: 1,
+            ),
+            subtitle: AutoSizeText("${vinho.pais} | ${vinho.tipo}", maxLines: 1,),
+            trailing: IconButton(
+              icon: Icon(
+                vinho.favorito ? Icons.favorite: Icons.favorite_outline,
+                size: 30,
+                color: Color(0xFFf88a29),
               ),
-            )
-          ),
-        title: AutoSizeText(
-          vinho.nome, style:
-          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          maxLines: 1,
-        ),
-        subtitle: AutoSizeText("${vinho.pais} | ${vinho.tipo}", maxLines: 1,),
-        trailing: IconButton(
-          icon: Icon(
-            vinho.favorito ? Icons.favorite: Icons.favorite_outline,
-            size: 30,
-            color: Color(0xFFf88a29),
-          ),
-          onPressed: () => onFavorite(),
-        ),
-      )
+              onPressed: () => onFavorite(),
+            ),
+          )
+      ),
     );
   }
 }
+
