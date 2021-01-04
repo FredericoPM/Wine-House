@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/vinho.dart';
 import '../controls/paises.dart';
-import '../views/wineForm.dart';
+import 'wineForm.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class InfoModal extends StatefulWidget {

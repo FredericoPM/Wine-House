@@ -52,7 +52,7 @@ class ListCard extends StatelessWidget {
             ),
             title: AutoSizeText(
               vinho.nome, style:
-            TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               maxLines: 1,
             ),
             subtitle: AutoSizeText("${vinho.pais} | ${vinho.tipo}", maxLines: 1,),

@@ -1,3 +1,4 @@
+import 'package:crud_app/widgets/deletePopUp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,8 @@ import '../models/vinho.dart';
 import 'wineForm.dart';
 import '../widgets/listCard.dart';
 import '../widgets/textField.dart';
-import '../widgets/infoModal.dart';
+import 'infoModal.dart';
+import "../widgets/deletePopUp.dart";
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
@@ -51,9 +53,18 @@ class _Main_listState extends State<Main_list> {
           vinho: vinho,
           onFavorite: () => onFavorite(vinho),
           onDelete: (int id) {
-            controller.remove(id).then((_) => setState(() {vinhos = controller.vinhos;}));
-            Navigator.of(context).pop();
-            showFlushbar(context, "Vinho deletado com sucesso!", Theme.of(context).errorColor);
+            showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return DeletePopUp(
+                    onDelete: () {
+                      controller.remove(id).then((_) => setState(() {vinhos = controller.vinhos;}));
+                      Navigator.of(context).pop();
+                      showFlushbar(context, "Vinho deletado com sucesso!", Theme.of(context).errorColor);
+                    },
+                  );
+                }
+            );
           },
           onEddit: (Vinho v){
             setState(() {
@@ -241,13 +252,22 @@ class _Main_listState extends State<Main_list> {
                         IconButton(
                           icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,),
                           onPressed:(){
-                            setState(() {
-                              selecionados.forEach((id) {
-                                controller.remove(id).then((_) => setState(() {vinhos = controller.vinhos;}));
-                              });
-                              selecionados.clear();
-                              showFlushbar(context, "Vinho(s) deletado(s) com sucesso!", Theme.of(context).errorColor);
-                            });
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context){
+                               return DeletePopUp(
+                                 onDelete: () {
+                                   setState(() {
+                                     selecionados.forEach((id) {
+                                       controller.remove(id).then((_) => setState(() {vinhos = controller.vinhos;}));
+                                     });
+                                     selecionados.clear();
+                                     showFlushbar(context, "Vinho(s) deletado(s) com sucesso!", Theme.of(context).errorColor);
+                                   });
+                                 },
+                               );
+                              }
+                            );
                           }
                         )
                       ],
