@@ -67,10 +67,7 @@ class _Main_listState extends State<Main_list> {
             );
           },
           onEddit: (Vinho v){
-            setState(() {
-              controller.update(v);
-              controller.sort();
-            });
+            controller.update(v).then((_) => controller.sort().then((_) => setState(() {vinhos = controller.vinhos;})));
             return v;
           },
         );
