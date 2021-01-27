@@ -11,6 +11,7 @@ import '../widgets/listCard.dart';
 import '../widgets/textField.dart';
 import 'infoModal.dart';
 import "../widgets/deletePopUp.dart";
+import 'package:flutter_svg/flutter_svg.dart';
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
@@ -283,20 +284,19 @@ class _Main_listState extends State<Main_list> {
                     children: [
                       Column(
                         children: [
+                          Container(
+                            height: availableSpace * 0.4,
+                            child: SvgPicture.asset(
+                              "assets/images/wine_background.svg",
+                            ),
+                          ),
+                          SizedBox(height: availableSpace * 0.08),
                           Text(
                             _searchController.text == "" ? "Sua adega esta vazia" : "Nenhum vinho correspondente",
                             style: TextStyle(
                               fontSize: 20,
                             ),
                           ),
-                          SizedBox(height: availableSpace * 0.08),
-                          Container(
-                            height: availableSpace * 0.4,
-                            child: Image.asset(
-                              "assets/images/adega.png",
-                              fit: BoxFit.cover,
-                            ),
-                          )
                         ],
                       )
                     ],
