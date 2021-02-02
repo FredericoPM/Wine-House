@@ -13,13 +13,16 @@ class VinhosSQLite{
         return db.execute(
           """CREATE TABLE Vinhos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                ano INTEGER,
-                nota REAL,
                 nome TEXT,
-                tipo TEXT,
                 pais TEXT,
-                localizacao TEXT,
-                comentario TEXT,
+                regiao TEXT,
+                tipo TEXT,
+                safra INTEGER,
+                notaRP INTEGER,
+                notaWS INTEGER,
+                beberRP TEXT,
+                quantidade INTEGER,
+                etiqueta TEXT,
                 favorito TEXT
             );""",
         );

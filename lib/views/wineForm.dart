@@ -18,23 +18,31 @@ class _WineFormState extends State<WineForm> {
   final _formKey = GlobalKey<FormState>();
   PesquisaAproximada pesquisa = PesquisaAproximada();
   PaisesController paisController = PaisesController();
-  TextEditingController _paisTextController = TextEditingController();
-  TextEditingController _nomeController = TextEditingController();
-  TextEditingController _tipoController = TextEditingController();
-  TextEditingController _anoController = TextEditingController();
-  TextEditingController _localizacaoController = TextEditingController();
-  TextEditingController _comentarioController = TextEditingController();
 
-  final sizedBoxSpace = SizedBox(height: 12);
+  TextEditingController _nomeController = TextEditingController();
+  TextEditingController _paisTextController = TextEditingController();
+  TextEditingController _regiaoController = TextEditingController();
+  TextEditingController _tipoController = TextEditingController();
+  TextEditingController _safraController = TextEditingController();
+  TextEditingController _notaRPController = TextEditingController();
+  TextEditingController _notaWSController = TextEditingController();
+  TextEditingController _beberRPController = TextEditingController();
+  TextEditingController _quantidadeController = TextEditingController();
+  TextEditingController _etiquetaController = TextEditingController();
+
+  final sizedBoxSpace = SizedBox(height: 16);
   Vinho vinho;
   _WineFormState(this.vinho){
     if(vinho != null){
-      _paisTextController.text = vinho.pais;
       _nomeController.text = vinho.nome;
+      _paisTextController.text = vinho.pais;
+      _regiaoController.text = vinho.regiao;
       _tipoController.text = vinho.tipo;
-      _anoController.text = vinho.ano.toString();
-      _localizacaoController.text = vinho.localizacao;
-      _comentarioController.text = vinho.comentario;
+      _safraController.text = vinho.safra.toString();
+      _notaRPController.text = vinho. notaRP.toString();
+      _notaWSController.text = vinho.notaWS.toString();
+      _quantidadeController.text = vinho.quantidade.toString();
+      _etiquetaController.text = vinho.etiqueta;
     }
   }
   @override
@@ -62,7 +70,7 @@ class _WineFormState extends State<WineForm> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.fromLTRB(15,5,15,15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -74,21 +82,12 @@ class _WineFormState extends State<WineForm> {
                         controller: _nomeController,
                         hintText: "Nome",
                         errorText: "Por favor preencha o nome",
-                        icon: Icon(Icons.wine_bar_outlined, color: Colors.grey[700]),
-                      ),
-                      sizedBoxSpace,
-                      TextFild(
-                        controller: _tipoController,
-                        hintText: "Tipo",
-                        errorText: "Por favor preencha o tipo",
-                        icon: Icon(Icons.wine_bar, color: Colors.grey[700]),
                       ),
                       sizedBoxSpace,
                       TextFild(
                         controller: _paisTextController,
                         hintText: "Pais de origem",
                         errorText: "Por favor preencha o pais de origem",
-                        icon: Icon(Icons.place_outlined, color: Colors.grey[700]),
                         //sera utilizado para fazer uma correção automatica da entrada para poder buscar a dados posteriormente
                         onFocusExit: () {
                           if(_paisTextController.text != "" && _paisTextController.text.length > 3){
@@ -108,22 +107,60 @@ class _WineFormState extends State<WineForm> {
                       ),
                       sizedBoxSpace,
                       TextFild(
-                        controller: _anoController,
-                        hintText: "Ano",
-                        icon: Icon(Icons.date_range_outlined, color: Colors.grey[700]),
+                        controller: _regiaoController,
+                        hintText: "Região de produção",
+                        errorText: "Por favor preencha a região",
+                      ),
+                      sizedBoxSpace,
+                      TextFild(
+                        controller: _tipoController,
+                        hintText: "Tipo",
+                        errorText: "Por favor preencha o tipo",
+                      ),
+                      sizedBoxSpace,
+                      TextFild(
+                        controller: _safraController,
+                        hintText: "Safra",
+                        keyboardType: TextInputType.number,
+                      ),
+                      sizedBoxSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width/2 - 22.5,
+                            child: TextFild(
+                              controller: _notaWSController,
+                              hintText: "Nota W.S.",
+                              keyboardType: TextInputType.number,
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width/2 - 22.5,
+                            child: TextFild(
+                              controller: _notaRPController,
+                              hintText: "Nota R.P.",
+                              keyboardType: TextInputType.number,
+                            ),
+                          ),
+                        ],
+                      ),
+                      sizedBoxSpace,
+                      TextFild(
+                        controller: _beberRPController,
+                        hintText: "Beber R.P.",
                         keyboardType: TextInputType.number,
                       ),
                       sizedBoxSpace,
                       TextFild(
-                        controller: _localizacaoController,
-                        hintText: "Localização",
-                        icon: Icon(Icons.grid_on, color: Colors.grey[700]),
+                        controller: _quantidadeController,
+                        hintText: "Quantidade",
+                        keyboardType: TextInputType.number,
                       ),
                       sizedBoxSpace,
                       TextFild(
-                        controller: _comentarioController,
-                        hintText: "Comentario",
-                        icon: Icon(Icons.comment, color: Colors.grey[700]),
+                        controller: _etiquetaController,
+                        hintText: "Etiqueta(s)",
                       ),
                       sizedBoxSpace,
                     ],
@@ -157,23 +194,30 @@ class _WineFormState extends State<WineForm> {
                             if(vinho == null){
                               widget.onAdd(Vinho(
                                 nome: _nomeController.text,
-                                tipo: _tipoController.text,
-                                ano: _anoController.text == "" ? -1 : int.parse(_anoController.text),
                                 pais: _paisTextController.text,
-                                localizacao: _localizacaoController.text,
-                                comentario: _comentarioController.text,
+                                regiao: _regiaoController.text,
+                                tipo: _tipoController.text,
+                                safra: _safraController.text == "" ? -1 : int.parse(_safraController.text),
+                                notaRP: int.parse(_notaRPController.text),
+                                notaWS: int.parse(_notaWSController.text),
+                                beberRP: _beberRPController.text,
+                                quantidade: int.parse(_quantidadeController.text),
+                                etiqueta: _etiquetaController.text,
                               ));
                             }else{
                               widget.onEddit(Vinho(
                                 id: vinho.id,
-                                nota: vinho.nota,
                                 nome: _nomeController.text,
-                                tipo: _tipoController.text,
-                                ano: int.parse(_anoController.text),
                                 pais: _paisTextController.text,
-                                localizacao: _localizacaoController.text,
+                                regiao: _regiaoController.text,
+                                tipo: _tipoController.text,
+                                safra: _safraController.text == "" ? -1 : int.parse(_safraController.text),
+                                notaRP: int.parse(_notaRPController.text),
+                                notaWS: int.parse(_notaWSController.text),
+                                beberRP: _beberRPController.text,
+                                quantidade: int.parse(_quantidadeController.text),
+                                etiqueta: _etiquetaController.text,
                                 favorito: vinho.favorito,
-                                comentario: _comentarioController.text,
                               ));
                               Navigator.of(context).pop();
                             }

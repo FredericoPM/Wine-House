@@ -1,33 +1,39 @@
 class Vinho {
   int _id;
-  int ano;
-  num nota;
   String nome;
-  String tipo;
   String pais;
-  String comentario;
-  String localizacao;
+  String regiao;
+  String tipo;
+  int safra;
+  num notaRP;
+  num notaWS;
+  String beberRP;
+  num quantidade;
+  String etiqueta;
   bool favorito;
 
   Vinho({
     id,
     this.nome,
-    this.ano,
     this.pais,
+    this.regiao,
     this.tipo,
-    this.localizacao,
-    this.nota = 0.0,
-    this.comentario = "",
+    this.safra,
+    this.notaRP = 0,
+    this.notaWS = 0,
+    this.beberRP,
+    this.quantidade = 1,
+    this.etiqueta,
     this.favorito = false,
   }){
     _id = id;
     nome = nome[0].toUpperCase() + nome.substring(1);
     pais = pais[0].toUpperCase() + pais.substring(1);
     tipo = tipo[0].toUpperCase() + tipo.substring(1);
-    if(localizacao == "")
-      localizacao = "Não informada";
-    if(ano == -1){
-      ano = DateTime.now().year;
+    if(etiqueta == "")
+      etiqueta = "Não informada";
+    if(safra == -1){
+      safra = DateTime.now().year;
     }
   }
 
@@ -40,26 +46,26 @@ class Vinho {
 
   Vinho.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
-    ano = json['ano'];
+    safra = json['safra'];
     pais = json['pais'];
     tipo = json['tipo'];
     favorito = json['favorito'] == "true";
-    localizacao = json['localizacao'];
-    comentario = json['comentario'];
-    nota = json['nota'];
+    etiqueta = json['etiqueta'];
+    notaRP = json['notaRP'];
+    notaWS = json['notaWS'];
     _id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['nome'] = this.nome;
-    data['ano'] = this.ano;
+    data['safra'] = this.safra;
     data['pais'] = this.pais;
     data['tipo'] = this.tipo;
     data['favorito'] = this.favorito.toString();
-    data['localizacao'] = this.localizacao;
-    data['comentario'] = this.comentario;
-    data['nota'] = this.nota;
+    data['etiqueta'] = this.etiqueta;
+    data['notaRP'] = this.notaRP;
+    data['notaWS'] = this.notaWS;
     if(this._id != null)
       data['id'] = this._id;
     return data;

@@ -3,7 +3,6 @@ import '../models/vinho.dart';
 import '../controls/paises.dart';
 import 'wineForm.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class InfoModal extends StatefulWidget {
   Vinho vinho;
   bool imageExist;
@@ -201,30 +200,19 @@ class _InfoModalState extends State<InfoModal> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Avaliação",
+                            "R.P.",
                             style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.grey[600]
                             ),
                           ),
-                          RatingBar.builder(
-                            itemSize: (constraints.maxWidth*9)/100,
-                            unratedColor: Colors.grey[300],
-                            initialRating: vinho.nota,
-                            minRating: 0,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: 10,
+                          AutoSizeText(
+                            "${vinho.notaRP}",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold
                             ),
-                            onRatingUpdate: (rating) {
-                              vinho.nota = rating;
-                              widget.onEddit(vinho);
-                            },
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -274,7 +262,7 @@ class _InfoModalState extends State<InfoModal> {
                               ),
                             ),
                             AutoSizeText(
-                              vinho.ano.toString(),
+                              vinho.safra.toString(),
                               style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold
@@ -298,7 +286,7 @@ class _InfoModalState extends State<InfoModal> {
                               ),
                             ),
                             AutoSizeText(
-                              vinho.localizacao,
+                              vinho.etiqueta,
                               style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold
@@ -314,30 +302,6 @@ class _InfoModalState extends State<InfoModal> {
               )
           ),
           const Divider(thickness: 1, height: 1,),
-          Padding(
-              padding: EdgeInsets.fromLTRB(15,15, 15, 5),
-              child: Container(
-                height: 135,
-                child: ListView(
-                  children: [
-                    Text(
-                      "Comentario",
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(height: 3),
-                    Text(
-                      vinho.comentario == "" ? "Parece que este vinho não tem um comentario! Clice no botão de editar acima para colocar um." : vinho.comentario,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: vinho.comentario == "" ? Colors.grey : Colors.grey[700]
-                      ),
-                    ),
-                  ],
-                ),
-              )
-          )
         ],
       ),
     );
