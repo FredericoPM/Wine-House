@@ -41,6 +41,7 @@ class _WineFormState extends State<WineForm> {
       _safraController.text = vinho.safra.toString();
       _notaRPController.text = vinho. notaRP.toString();
       _notaWSController.text = vinho.notaWS.toString();
+      _beberRPController.text = vinho.beberRP;
       _quantidadeController.text = vinho.quantidade.toString();
       _etiquetaController.text = vinho.etiqueta;
     }

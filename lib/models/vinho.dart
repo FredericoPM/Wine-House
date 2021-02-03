@@ -30,6 +30,7 @@ class Vinho {
     nome = nome[0].toUpperCase() + nome.substring(1);
     pais = pais[0].toUpperCase() + pais.substring(1);
     tipo = tipo[0].toUpperCase() + tipo.substring(1);
+    regiao = regiao[0].toUpperCase() + regiao.substring(1);
     if(etiqueta == "")
       etiqueta = "Não informada";
     if(safra == -1){
@@ -46,26 +47,33 @@ class Vinho {
 
   Vinho.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
-    safra = json['safra'];
     pais = json['pais'];
+    regiao = json['regiao'];
     tipo = json['tipo'];
-    favorito = json['favorito'] == "true";
-    etiqueta = json['etiqueta'];
+    safra = json['safra'];
     notaRP = json['notaRP'];
     notaWS = json['notaWS'];
+    beberRP = json['beberRP'];
+    quantidade = json['quantidade'];
+    etiqueta = json['etiqueta'];
+    favorito = json['favorito'] == "true";
     _id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['nome'] = this.nome;
-    data['safra'] = this.safra;
     data['pais'] = this.pais;
+    data['regiao'] = this.regiao;
     data['tipo'] = this.tipo;
-    data['favorito'] = this.favorito.toString();
+    data['safra'] = this.safra;
     data['etiqueta'] = this.etiqueta;
     data['notaRP'] = this.notaRP;
     data['notaWS'] = this.notaWS;
+    data['beberRP'] = this.beberRP;
+    data['quantidade'] = this.quantidade;
+    data['etiqueta'] = this.etiqueta;
+    data['favorito'] = this.favorito.toString();
     if(this._id != null)
       data['id'] = this._id;
     return data;

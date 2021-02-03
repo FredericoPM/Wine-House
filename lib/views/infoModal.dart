@@ -159,12 +159,12 @@ class _InfoModalState extends State<InfoModal> {
               ),
             ],
           ),
-          const Divider(thickness: 1, height: 1,),
+          const Divider(thickness: 1, height: 1),
           InfoRow(
             informations: [
               InfoField(
                 label:"Beber R.P.",
-                info: vinho.beberRP.toString(),
+                info: vinho.beberRP,
               ),
               InfoField(
                 label:"Quantidade",
