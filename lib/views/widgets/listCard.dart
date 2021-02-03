@@ -1,7 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import '../models/vinho.dart';
-import '../controls/paises.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import '../../models/vinho.dart';
+import '../../controllers/paises.dart';
+import 'flagDisplay.dart';
 class ListCard extends StatelessWidget {
   final Vinho vinho;
   void Function() onFavorite;
@@ -21,41 +22,25 @@ class ListCard extends StatelessWidget {
           child: ListTile(
             contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 5),
             onTap: () => onTap(context, selected),
-            leading: paisesController.imageExist(vinho)
-                ? Stack(
-              alignment: Alignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundColor: selected ? Theme.of(context).accentColor : Theme.of(context).primaryColor,
-                ),
-                selected
-                ? Icon(
+            leading: selected 
+            ? CircleAvatar(
+              backgroundColor: selected ? Theme.of(context).accentColor : Theme.of(context).primaryColor,
+              child: FittedBox(
+                child: Icon(
                   Icons.check,
                   color: Colors.white,
-                )
-                : Container(
-                  height:35,
-                  child: Image.asset(
-                    paisesController.imagePath(vinho),
-                    fit: BoxFit.cover,
-                  ),
                 ),
-              ],
-            ) : CircleAvatar(
-                backgroundColor: selected ? Theme.of(context).accentColor : Theme.of(context).primaryColor,
-                child: FittedBox(
-                  child: Icon(
-                    selected ?Icons.check: Icons.place_outlined,
-                    color: Colors.white,
-                  ),
-                )
+              )
+            )
+            : FlagDisplay(
+              imagePath: paisesController.imageExist(vinho) ? paisesController.imagePath(vinho) : null,
             ),
             title: AutoSizeText(
               vinho.nome, style:
               TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               maxLines: 1,
             ),
-            subtitle: AutoSizeText("${vinho.pais} | ${vinho.tipo}", maxLines: 1,),
+            subtitle: AutoSizeText("${vinho.regiao} | ${vinho.tipo}", maxLines: 1,),
             trailing: IconButton(
               icon: Icon(
                 vinho.favorito ? Icons.favorite: Icons.favorite_outline,

@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../models/vinho.dart';
+import '../../models/vinho.dart';
 class VinhosSQLite{
   Database _database;
   Database get db{

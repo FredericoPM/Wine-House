@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../widgets/textField.dart';
+import 'widgets/formTextField.dart';
 import '../models/vinho.dart';
-import '../controls/paises.dart';
-import '../controls/pesquisaAproximada.dart';
+import '../controllers/paises.dart';
+import '../controllers/pesquisaAproximada.dart';
 
 class WineForm extends StatefulWidget {
   void Function(Vinho v) onAdd;
@@ -78,13 +78,13 @@ class _WineFormState extends State<WineForm> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFild(
+                      FormTextField(
                         controller: _nomeController,
                         hintText: "Nome",
                         errorText: "Por favor preencha o nome",
                       ),
                       sizedBoxSpace,
-                      TextFild(
+                      FormTextField(
                         controller: _paisTextController,
                         hintText: "Pais de origem",
                         errorText: "Por favor preencha o pais de origem",
@@ -106,19 +106,19 @@ class _WineFormState extends State<WineForm> {
                         },
                       ),
                       sizedBoxSpace,
-                      TextFild(
+                      FormTextField(
                         controller: _regiaoController,
                         hintText: "Região de produção",
                         errorText: "Por favor preencha a região",
                       ),
                       sizedBoxSpace,
-                      TextFild(
+                      FormTextField(
                         controller: _tipoController,
                         hintText: "Tipo",
                         errorText: "Por favor preencha o tipo",
                       ),
                       sizedBoxSpace,
-                      TextFild(
+                      FormTextField(
                         controller: _safraController,
                         hintText: "Safra",
                         keyboardType: TextInputType.number,
@@ -129,7 +129,7 @@ class _WineFormState extends State<WineForm> {
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width/2 - 22.5,
-                            child: TextFild(
+                            child: FormTextField(
                               controller: _notaWSController,
                               hintText: "Nota W.S.",
                               keyboardType: TextInputType.number,
@@ -137,7 +137,7 @@ class _WineFormState extends State<WineForm> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width/2 - 22.5,
-                            child: TextFild(
+                            child: FormTextField(
                               controller: _notaRPController,
                               hintText: "Nota R.P.",
                               keyboardType: TextInputType.number,
@@ -146,19 +146,19 @@ class _WineFormState extends State<WineForm> {
                         ],
                       ),
                       sizedBoxSpace,
-                      TextFild(
+                      FormTextField(
                         controller: _beberRPController,
                         hintText: "Beber R.P.",
                         keyboardType: TextInputType.number,
                       ),
                       sizedBoxSpace,
-                      TextFild(
+                      FormTextField(
                         controller: _quantidadeController,
                         hintText: "Quantidade",
                         keyboardType: TextInputType.number,
                       ),
                       sizedBoxSpace,
-                      TextFild(
+                      FormTextField(
                         controller: _etiquetaController,
                         hintText: "Etiqueta(s)",
                       ),

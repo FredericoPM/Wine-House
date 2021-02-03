@@ -1,5 +1,5 @@
 import '../models/vinho.dart';
-import '../repositories/vinhos_SQLite.dart';
+import '../models/repositories/vinhos_SQLite.dart';
 class ListController{
   List<Vinho> _vinhos = [];
   String _order = "nm";

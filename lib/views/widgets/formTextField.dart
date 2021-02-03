@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import '../controls/pesquisaAproximada.dart';
-class TextFild extends StatefulWidget {
+import '../../controllers/pesquisaAproximada.dart';
+class FormTextField extends StatefulWidget {
   TextEditingController controller = TextEditingController();
   String hintText;
   String errorText;
   void Function(String text) onChanged;
   void Function() onFocusExit;
   var keyboardType;
-  TextFild({this.controller, this.hintText, this.errorText, this.onChanged, this.keyboardType = TextInputType.text, this.onFocusExit});
+  FormTextField({this.controller, this.hintText, this.errorText, this.onChanged, this.keyboardType = TextInputType.text, this.onFocusExit});
   @override
-  _TextFildState createState() => _TextFildState();
+  _FormTextFieldState createState() => _FormTextFieldState();
 }
 
-class _TextFildState extends State<TextFild> {
+class _FormTextFieldState extends State<FormTextField> {
 
   bool _focus = false;
   @override
