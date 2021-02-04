@@ -19,9 +19,9 @@ class Vinho {
     this.regiao,
     this.tipo,
     this.safra,
-    this.notaRP = 0,
-    this.notaWS = 0,
-    this.beberRP,
+    this.notaRP,
+    this.notaWS,
+    this.beberRP = "",
     this.quantidade = 1,
     this.etiqueta,
     this.favorito = false,
@@ -31,8 +31,8 @@ class Vinho {
     pais = pais[0].toUpperCase() + pais.substring(1);
     tipo = tipo[0].toUpperCase() + tipo.substring(1);
     regiao = regiao[0].toUpperCase() + regiao.substring(1);
-    if(etiqueta == "")
-      etiqueta = "Não informada";
+    if(beberRP == "")
+      beberRP = "Não informado";
     if(safra == -1){
       safra = DateTime.now().year;
     }

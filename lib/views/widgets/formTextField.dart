@@ -49,6 +49,20 @@ class _FormTextFieldState extends State<FormTextField> {
                   errorStyle: TextStyle(
                     color: Theme.of(context).errorColor,
                   ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(7.5),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Theme.of(context).errorColor,
+                    ),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(7.5),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
                   suffixIcon: _focus ? IconButton(
                     icon: Icon(Icons.clear, color: Colors.grey,),
                     onPressed: () {
@@ -62,14 +76,14 @@ class _FormTextFieldState extends State<FormTextField> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(7.5),
                     borderSide: BorderSide(
-                      width: 2,
+                      width: 1,
                       color: Colors.grey[200],
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(7.5),
                     borderSide: BorderSide(
-                      width: 2,
+                      width: 1,
                       color: Theme.of(context).primaryColor,
                     ),
                   ),

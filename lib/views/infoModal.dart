@@ -155,11 +155,11 @@ class _InfoModalState extends State<InfoModal> {
             informations: [
               InfoField(
                 label:"Nota R.P.",
-                info: "${vinho.notaRP}",
+                info: vinho.notaRP == -1 ? "Não informado" : "${vinho.notaRP}",
               ),
               InfoField(
                 label:"Nota W.S.",
-                info: "${vinho.notaWS}",
+                info: vinho.notaWS == -1 ? "Não informado" : "${vinho.notaWS}",
               ),
             ],
           ),

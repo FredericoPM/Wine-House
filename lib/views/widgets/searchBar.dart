@@ -61,14 +61,14 @@ class _SearchBarState extends State<SearchBar> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(7.5),
                     borderSide: BorderSide(
-                      width: 2,
+                      width: 1,
                       color: Colors.grey[200],
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(7.5),
                     borderSide: BorderSide(
-                      width: 2,
+                      width: 1,
                       color: Theme.of(context).primaryColor,
                     ),
                   ),

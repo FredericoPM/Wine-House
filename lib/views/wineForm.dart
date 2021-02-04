@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'widgets/autoCompleteField.dart';
 import 'widgets/formTextField.dart';
 import '../models/vinho.dart';
 import '../controllers/paises.dart';
@@ -15,7 +15,6 @@ class WineForm extends StatefulWidget {
 
 class _WineFormState extends State<WineForm> {
 
-  bool _focus = false;
   final _formKey = GlobalKey<FormState>();
   PaisesController paisController = PaisesController();
 
@@ -39,8 +38,8 @@ class _WineFormState extends State<WineForm> {
       _regiaoController.text = vinho.regiao;
       _tipoController.text = vinho.tipo;
       _safraController.text = vinho.safra.toString();
-      _notaRPController.text = vinho. notaRP.toString();
-      _notaWSController.text = vinho.notaWS.toString();
+      _notaRPController.text = vinho.notaRP == -1 ? "" : vinho.notaRP.toString();
+      _notaWSController.text = vinho.notaWS == -1 ? "" : vinho.notaWS.toString();
       _beberRPController.text = vinho.beberRP;
       _quantidadeController.text = vinho.quantidade.toString();
       _etiquetaController.text = vinho.etiqueta;
@@ -83,80 +82,25 @@ class _WineFormState extends State<WineForm> {
                       FormTextField(
                         controller: _nomeController,
                         labelText: "Nome",
-                        errorText: "Por favor preencha o nome",
+                        errorText: "* Por favor informe o nome",
                       ),
                       sizedBoxSpace,
-                      Focus(
-                        onFocusChange: (focus)  {
-                          setState(() { _focus = focus;});
-                        },
-                        child: TypeAheadFormField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                            controller: _paisTextController,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(16,8,16,8),
-                              labelText: "Pais",
-                              labelStyle: _focus ||_paisTextController.text != "" ? TextStyle(fontSize: 22, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600):null,
-                              // labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-                              errorStyle: TextStyle(
-                                color: Theme.of(context).errorColor,
-                              ),
-                              suffixIcon: _focus ? IconButton(
-                                icon: Icon(Icons.clear, color: Colors.grey,),
-                                onPressed: () {
-                                  setState(() { _paisTextController.text = ""; });
-                                },
-                              ) : null,
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(7.5),
-                                borderSide: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey[200],
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(7.5),
-                                borderSide: BorderSide(
-                                  width: 2,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ),
-                          ),          
-                          suggestionsCallback: (pattern) {
-                            return paisController.getSuggestions(pattern);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return ListTile(
-                              title: Text(suggestion),
-                            );
-                          },
-                          transitionBuilder: (context, suggestionsBox, controller) {
-                            return suggestionsBox;
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            this._paisTextController.text = suggestion;
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please select a city';
-                            }
-                          },
-                        ),
+                      AutoCompleteField(
+                        controller: _paisTextController,
+                        suggestions: (pattern) => paisController.getSuggestions(pattern),
+                        errorText: "* Por favor informe o pais",
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _regiaoController,
                         labelText: "Região de produção",
-                        errorText: "Por favor preencha a região",
+                        errorText: "* Por favor informe a região",
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _tipoController,
                         labelText: "Tipo",
-                        errorText: "Por favor preencha o tipo",
+                        errorText: "* Por favor informe o tipo",
                       ),
                       sizedBoxSpace,
                       FormTextField(
@@ -197,11 +141,13 @@ class _WineFormState extends State<WineForm> {
                         controller: _quantidadeController,
                         labelText: "Quantidade",
                         keyboardType: TextInputType.number,
+                        errorText: "* Por favor informe a quantidade",
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _etiquetaController,
                         labelText: "Etiqueta(s)",
+                        errorText: "* Por favor informe a(s) etiqueta(s)",
                       ),
                       sizedBoxSpace,
                     ],
@@ -239,8 +185,8 @@ class _WineFormState extends State<WineForm> {
                                 regiao: _regiaoController.text,
                                 tipo: _tipoController.text,
                                 safra: _safraController.text == "" ? -1 : int.parse(_safraController.text),
-                                notaRP: int.parse(_notaRPController.text),
-                                notaWS: int.parse(_notaWSController.text),
+                                notaRP: _notaRPController.text == "" ? -1 : int.parse(_notaRPController.text),
+                                notaWS: _notaWSController.text == "" ? -1 : int.parse(_notaWSController.text),
                                 beberRP: _beberRPController.text,
                                 quantidade: int.parse(_quantidadeController.text),
                                 etiqueta: _etiquetaController.text,
@@ -252,9 +198,9 @@ class _WineFormState extends State<WineForm> {
                                 pais: _paisTextController.text,
                                 regiao: _regiaoController.text,
                                 tipo: _tipoController.text,
-                                safra: _safraController.text == "" ? -1 : int.parse(_safraController.text),
-                                notaRP: int.parse(_notaRPController.text),
-                                notaWS: int.parse(_notaWSController.text),
+                                safra: int.parse(_safraController.text),
+                                notaRP: _notaRPController.text == "" ? -1 : int.parse(_notaRPController.text),
+                                notaWS: _notaWSController.text == "" ? -1 : int.parse(_notaWSController.text),
                                 beberRP: _beberRPController.text,
                                 quantidade: int.parse(_quantidadeController.text),
                                 etiqueta: _etiquetaController.text,
