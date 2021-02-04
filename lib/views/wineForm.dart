@@ -52,7 +52,7 @@ class _WineFormState extends State<WineForm> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
+          leading: IconButton(W
             icon: Icon(
               Icons.keyboard_backspace,
               color: Theme.of(context).primaryColor,
@@ -69,7 +69,14 @@ class _WineFormState extends State<WineForm> {
             ),
           ),
           actions: [
-            IconButton(icon: Icon(Icons.upload_sharp, color: Theme.of(context).primaryColor,size: 30,), onPressed: (){},),
+            IconButton(
+              icon: Icon(
+                Icons.upload_sharp,
+                color: Theme.of(context).primaryColor,
+                size: 30,
+              ),
+              onPressed: (){},
+            ),
           ],
         ),
         body: SingleChildScrollView(
