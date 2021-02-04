@@ -1,17 +1,17 @@
-import './widgets/deletePopUp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import './widgets/deletePopUp.dart';
 import '../controllers/pesquisaAproximada.dart';
 import '../controllers/list.dart';
 import '../models/vinho.dart';
 import 'wineForm.dart';
 import './widgets/listCard.dart';
-import 'widgets/formTextField.dart';
+import 'widgets/searchBar.dart';
 import 'infoModal.dart';
 import "./widgets/deletePopUp.dart";
-import 'package:flutter_svg/flutter_svg.dart';
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
@@ -109,7 +109,7 @@ class _Main_listState extends State<Main_list> {
                       fontSize: 40,
                     ),
                   ),
-                  FormTextField(
+                  SearchBar(
                     controller: _searchController,
                     hintText: "Pesquise um vinho",
                     onChanged: (String text) {

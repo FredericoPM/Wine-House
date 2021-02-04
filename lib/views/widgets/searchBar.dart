@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../controllers/pesquisaAproximada.dart';
-class FormTextField extends StatefulWidget {
+class SearchBar extends StatefulWidget {
   TextEditingController controller = TextEditingController();
-  String labelText;
+  String hintText;
   String errorText;
   void Function(String text) onChanged;
   void Function() onFocusExit;
   var keyboardType;
-  FormTextField({this.controller, this.labelText, this.errorText, this.onChanged, this.keyboardType = TextInputType.text, this.onFocusExit});
+  SearchBar({this.controller, this.hintText, this.errorText, this.onChanged, this.keyboardType = TextInputType.text, this.onFocusExit});
   @override
-  _FormTextFieldState createState() => _FormTextFieldState();
+  _SearchBarState createState() => _SearchBarState();
 }
 
-class _FormTextFieldState extends State<FormTextField> {
+class _SearchBarState extends State<SearchBar> {
 
   bool _focus = false;
   @override
@@ -43,12 +42,12 @@ class _FormTextFieldState extends State<FormTextField> {
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(16,8,16,8),
-                  labelText: widget.labelText,
-                  labelStyle: _focus || widget.controller.text != ""? TextStyle(fontSize: 22, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600):null,
+                  hintText: widget.hintText,
                   // labelStyle: TextStyle(color: Theme.of(context).primaryColor),
                   errorStyle: TextStyle(
                     color: Theme.of(context).errorColor,
                   ),
+                  prefixIcon: Icon(Icons.search, color: Colors.grey[700],),
                   suffixIcon: _focus ? IconButton(
                     icon: Icon(Icons.clear, color: Colors.grey,),
                     onPressed: () {

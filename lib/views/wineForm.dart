@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'widgets/formTextField.dart';
 import '../models/vinho.dart';
 import '../controllers/paises.dart';
-import '../controllers/pesquisaAproximada.dart';
 
 class WineForm extends StatefulWidget {
   void Function(Vinho v) onAdd;
@@ -15,8 +15,8 @@ class WineForm extends StatefulWidget {
 
 class _WineFormState extends State<WineForm> {
 
+  bool _focus = false;
   final _formKey = GlobalKey<FormState>();
-  PesquisaAproximada pesquisa = PesquisaAproximada();
   PaisesController paisController = PaisesController();
 
   TextEditingController _nomeController = TextEditingController();
@@ -48,6 +48,7 @@ class _WineFormState extends State<WineForm> {
   }
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -81,47 +82,86 @@ class _WineFormState extends State<WineForm> {
                     children: [
                       FormTextField(
                         controller: _nomeController,
-                        hintText: "Nome",
+                        labelText: "Nome",
                         errorText: "Por favor preencha o nome",
                       ),
                       sizedBoxSpace,
-                      FormTextField(
-                        controller: _paisTextController,
-                        hintText: "Pais de origem",
-                        errorText: "Por favor preencha o pais de origem",
-                        //sera utilizado para fazer uma correção automatica da entrada para poder buscar a dados posteriormente
-                        onFocusExit: () {
-                          if(_paisTextController.text != "" && _paisTextController.text.length > 3){
-                            int menorDistancia = 2;
-                            String newText;
-                            paisController.paisesDisponiveis.forEach((p) {
-                              int distanciaAtual = pesquisa.distancia(_paisTextController.text.toUpperCase(), p['pais'].toUpperCase());
-                              if(distanciaAtual < menorDistancia){
-                                menorDistancia = distanciaAtual;
-                                newText = p['pais'];
-                              }
-                              if(menorDistancia < 2)
-                                _paisTextController.text = newText;
-                            });
-                          }
+                      Focus(
+                        onFocusChange: (focus)  {
+                          setState(() { _focus = focus;});
                         },
+                        child: TypeAheadFormField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: _paisTextController,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(16,8,16,8),
+                              labelText: "Pais",
+                              labelStyle: _focus ||_paisTextController.text != "" ? TextStyle(fontSize: 22, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600):null,
+                              // labelStyle: TextStyle(color: Theme.of(context).primaryColor),
+                              errorStyle: TextStyle(
+                                color: Theme.of(context).errorColor,
+                              ),
+                              suffixIcon: _focus ? IconButton(
+                                icon: Icon(Icons.clear, color: Colors.grey,),
+                                onPressed: () {
+                                  setState(() { _paisTextController.text = ""; });
+                                },
+                              ) : null,
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(7.5),
+                                borderSide: BorderSide(
+                                  width: 2,
+                                  color: Colors.grey[200],
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(7.5),
+                                borderSide: BorderSide(
+                                  width: 2,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
+                          ),          
+                          suggestionsCallback: (pattern) {
+                            return paisController.getSuggestions(pattern);
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return ListTile(
+                              title: Text(suggestion),
+                            );
+                          },
+                          transitionBuilder: (context, suggestionsBox, controller) {
+                            return suggestionsBox;
+                          },
+                          onSuggestionSelected: (suggestion) {
+                            this._paisTextController.text = suggestion;
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please select a city';
+                            }
+                          },
+                        ),
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _regiaoController,
-                        hintText: "Região de produção",
+                        labelText: "Região de produção",
                         errorText: "Por favor preencha a região",
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _tipoController,
-                        hintText: "Tipo",
+                        labelText: "Tipo",
                         errorText: "Por favor preencha o tipo",
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _safraController,
-                        hintText: "Safra",
+                        labelText: "Safra",
                         keyboardType: TextInputType.number,
                       ),
                       sizedBoxSpace,
@@ -132,7 +172,7 @@ class _WineFormState extends State<WineForm> {
                             width: MediaQuery.of(context).size.width/2 - 22.5,
                             child: FormTextField(
                               controller: _notaWSController,
-                              hintText: "Nota W.S.",
+                              labelText: "Nota W.S.",
                               keyboardType: TextInputType.number,
                             ),
                           ),
@@ -140,7 +180,7 @@ class _WineFormState extends State<WineForm> {
                             width: MediaQuery.of(context).size.width/2 - 22.5,
                             child: FormTextField(
                               controller: _notaRPController,
-                              hintText: "Nota R.P.",
+                              labelText: "Nota R.P.",
                               keyboardType: TextInputType.number,
                             ),
                           ),
@@ -149,19 +189,19 @@ class _WineFormState extends State<WineForm> {
                       sizedBoxSpace,
                       FormTextField(
                         controller: _beberRPController,
-                        hintText: "Beber R.P.",
+                        labelText: "Beber R.P.",
                         keyboardType: TextInputType.number,
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _quantidadeController,
-                        hintText: "Quantidade",
+                        labelText: "Quantidade",
                         keyboardType: TextInputType.number,
                       ),
                       sizedBoxSpace,
                       FormTextField(
                         controller: _etiquetaController,
-                        hintText: "Etiqueta(s)",
+                        labelText: "Etiqueta(s)",
                       ),
                       sizedBoxSpace,
                     ],

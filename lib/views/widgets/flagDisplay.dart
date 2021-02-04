@@ -11,7 +11,8 @@ class FlagDisplay extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Color(0xff541625),
           radius: radius,
         ),
         imagePath == null 

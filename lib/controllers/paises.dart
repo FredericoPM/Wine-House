@@ -1,6 +1,7 @@
 import '../models/vinho.dart';
+import '../controllers/pesquisaAproximada.dart';
 class PaisesController{
-  List<Map> paisesDisponiveis = [
+  List<Map> _paisesDisponiveis = [
     {
       'pais' : 'Albânia',
       'bandeira' : 'assets/images/bandeiras/albania.png',
@@ -282,11 +283,17 @@ class PaisesController{
       'backGround' : 'assets/images/backGrounds/venezuela.png',
     },
   ];
-
+  get paisesDisponiveis{
+    return _paisesDisponiveis.map((e) => e['pais']).toList();
+  }
+  List<dynamic> getSuggestions(String pattern){
+    PesquisaAproximada pesquisa = PesquisaAproximada();
+    return paisesDisponiveis.where((pais) => pesquisa.pFromStart(pattern.toLowerCase(), pais.toLowerCase())).toList();
+  }
   bool imageExist(Vinho vinho){
     bool result = false;
-    for(int i =0; i< paisesDisponiveis.length && !result; i++){
-      if(vinho.pais == paisesDisponiveis[i]['pais']){
+    for(int i =0; i< _paisesDisponiveis.length && !result; i++){
+      if(vinho.pais == _paisesDisponiveis[i]['pais']){
         result = true;
       }
     }
@@ -295,23 +302,24 @@ class PaisesController{
   String imagePath(Vinho vinho){
     bool result = false;
     int index = -1;
-    for(int i =0; i< paisesDisponiveis.length && !result; i++){
-      if(vinho.pais == paisesDisponiveis[i]['pais']){
+    for(int i =0; i< _paisesDisponiveis.length && !result; i++){
+      if(vinho.pais == _paisesDisponiveis[i]['pais']){
         result = true;
         index = i;
       }
     }
-    return paisesDisponiveis[index]['bandeira'];
+    return _paisesDisponiveis[index]['bandeira'];
   }
   String backgroundPath(Vinho vinho){
     bool result = false;
     int index = -1;
-    for(int i =0; i< paisesDisponiveis.length && !result; i++){
-      if(vinho.pais == paisesDisponiveis[i]['pais']){
+    for(int i =0; i< _paisesDisponiveis.length && !result; i++){
+      if(vinho.pais == _paisesDisponiveis[i]['pais']){
         result = true;
         index = i;
       }
     }
-    return paisesDisponiveis[index]['backGround'];
+    return _paisesDisponiveis[index]['backGround'];
   }
+  
 }

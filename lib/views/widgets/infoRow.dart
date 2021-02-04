@@ -9,7 +9,7 @@ class InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+      padding: EdgeInsets.fromLTRB(15, 12, 15, 12),
       child: LayoutBuilder(
         builder: (ctx, constraints){
           return Row(

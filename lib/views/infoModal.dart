@@ -25,8 +25,12 @@ class _InfoModalState extends State<InfoModal> {
   _InfoModalState(this.vinho);
   @override
   Widget build(BuildContext context) {
+    const divider = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+      child: const Divider(thickness: 1, height: 1,),
+    );
     return Container(
-      height: 340 + (widget.imageExist ? MediaQuery.of(context).size.width/2 : 30.0),
+      height: 350 + (widget.imageExist ? MediaQuery.of(context).size.width/2 : 30.0),
       child: Column(
         children: [
           widget.imageExist ? Container(
@@ -117,7 +121,7 @@ class _InfoModalState extends State<InfoModal> {
               ),
             ],
           ),
-          const Divider(thickness: 1, height: 1,),
+          divider,
           ListTile(
             contentPadding: EdgeInsets.fromLTRB(15, 0, 15, 0),
             title: AutoSizeText(
@@ -133,7 +137,7 @@ class _InfoModalState extends State<InfoModal> {
               style: TextStyle(fontSize: 18),
             ),
           ),
-          const Divider(thickness: 1, height: 1,),
+          divider,
           InfoRow(
             informations: [
               InfoField(
@@ -146,7 +150,7 @@ class _InfoModalState extends State<InfoModal> {
               ),
             ],
           ),
-          const Divider(thickness: 1,height: 1,),
+          divider,
           InfoRow(
             informations: [
               InfoField(
@@ -159,7 +163,7 @@ class _InfoModalState extends State<InfoModal> {
               ),
             ],
           ),
-          const Divider(thickness: 1, height: 1),
+          divider,
           InfoRow(
             informations: [
               InfoField(
@@ -172,7 +176,7 @@ class _InfoModalState extends State<InfoModal> {
               ),
             ],
           ),
-          const Divider(thickness: 1, height: 1,),
+          divider,
           InfoRow(
             informations: [
               InfoField(

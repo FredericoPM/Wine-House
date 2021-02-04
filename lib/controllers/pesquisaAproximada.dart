@@ -31,7 +31,7 @@ class PesquisaAproximada{
     //strings de ate 05 caracteres toleram distancia de no maximo 1
     //strings de ate 10 caracteres toleram distancia de no maximo 2
     //strings de ate 15 ou mais  caracteres toleram distancia de no maximo 3
-    if(dist == 0 || (dist < 3 && size >= 5 && size < 10) || (dist < 4 && size >= 10 && size < 15) || (dist < 5 && size >= 15))
+    if(dist == 0 || (dist < 2 && size >= 5 && size < 10) || (dist < 3 && size >= 10 && size < 15) || (dist < 4 && size >= 15))
       return true;
     return false;
 
