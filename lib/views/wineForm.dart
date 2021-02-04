@@ -68,6 +68,9 @@ class _WineFormState extends State<WineForm> {
               fontSize: 30,
             ),
           ),
+          actions: [
+            IconButton(icon: Icon(Icons.upload_sharp, color: Theme.of(context).primaryColor,size: 30,), onPressed: (){},),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(

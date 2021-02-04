@@ -121,7 +121,7 @@ class _Main_listState extends State<Main_list> {
                         }
                       });
                     },
-                  )
+                  ),
                 ],
               ),
             )
@@ -135,6 +135,7 @@ class _Main_listState extends State<Main_list> {
               height: availableSpace*0.1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     "Vinhos",
@@ -145,81 +146,22 @@ class _Main_listState extends State<Main_list> {
                   ),
                   selecionados.length == 0
                   ? Container(
-                    width: 96,
+                    width: 108,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PopupMenuButton<String>(
-                          icon: Icon(
-                            Icons.sort_rounded,
-                            size: 27,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          padding: EdgeInsets.zero,
-                          onSelected: (value) {
-                            if(value == "fv"){
-                              controller.invertFavoritePriority();
-                            }else{
-                              controller.order = value;
-                            }
-                            controller.sort();
-                            setState(() {vinhos = controller.vinhos;});
-                          },
-                          itemBuilder: (context) => <PopupMenuEntry<String>>[
-                            PopupMenuItem<String>(
-                              enabled: false,
-                              child: Text(
-                                "Ordenar por:",
-                                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                              ),
+                        IconButton(
+                            icon: Icon(
+                              Icons.file_download,
+                              size: 30,
+                              color: Theme.of(context).primaryColor,
                             ),
-                            PopupMenuItem<String>(
-                              value: "nm",
-                              child: ListTile(
-                                leading: Icon(Icons.wine_bar_outlined, color: controller.order == "nm" ? Theme.of(context).accentColor : Colors.grey[700]),
-                                title: Text(
-                                  "Nome",
-                                  style: TextStyle(fontWeight: controller.order == "nm" ? FontWeight.bold : null),
-                                ),
-                              ),
-                            ),
-                            PopupMenuItem<String>(
-                              value: "tp",
-                              child: ListTile(
-                                leading: Icon(Icons.wine_bar, color: controller.order == "tp" ? Theme.of(context).accentColor : Colors.grey[700]),
-                                title: Text(
-                                  "Tipo",
-                                  style: TextStyle(fontWeight: controller.order == "tp" ? FontWeight.bold : null),
-                                ),
-                              ),
-                            ),
-                            PopupMenuItem<String>(
-                              value: "pa",
-                              child: ListTile(
-                                leading: Icon(Icons.place_outlined, color: controller.order == "pa" ? Theme.of(context).accentColor : Colors.grey[700]),
-                                title: Text(
-                                  "Pais",
-                                  style: TextStyle(fontWeight: controller.order == "pa" ? FontWeight.bold : null),
-                                ),
-                              ),
-                            ),
-                            const PopupMenuDivider(),
-                            PopupMenuItem<String>(
-                              value: "fv",
-                              child: ListTile(
-                                leading: Icon(Icons.favorite, color: controller.favoritePriority ? Theme.of(context).accentColor : Colors.grey[700]),
-                                title: Text(
-                                  "Favoritos",
-                                  style: TextStyle(fontWeight: controller.favoritePriority ? FontWeight.bold : null),
-                                ),
-                              ),
-                            ),
-                          ],
+                            onPressed: (){}
                         ),
                         IconButton(
                             icon: Icon(
                               Icons.add_circle,
-                              size: 27,
+                              size: 30,
                               color: Theme.of(context).primaryColor,
                             ),
                             onPressed: (){
