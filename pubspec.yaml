@@ -32,7 +32,7 @@ flutter_icons:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/adega.png
+    - assets/gifs/loading.gif
     - assets/images/wine_background.svg
     - assets/images/bandeiras/albania.png
     - assets/images/bandeiras/alemanha.png

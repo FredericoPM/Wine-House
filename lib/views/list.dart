@@ -18,6 +18,7 @@ class Main_list extends StatefulWidget {
 }
 
 class _Main_listState extends State<Main_list> {
+  bool loaded = false;
   PesquisaAproximada pesquisa = new PesquisaAproximada();
   TextEditingController _searchController = TextEditingController();
   ListController controller = ListController();
@@ -78,6 +79,10 @@ class _Main_listState extends State<Main_list> {
   Future<void> loadData() async{
     await controller.getAll();
     setState(() {vinhos = controller.vinhos;});
+    setState(() {
+      loaded = true;
+    });
+    
   }
   @override
   void initState() {
@@ -217,29 +222,45 @@ class _Main_listState extends State<Main_list> {
             ),
             Container(
               height: availableSpace * 0.9,
-              child: vinhos.length == 0
+              child: !loaded ? 
+              Opacity(
+                opacity: 0.6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/gifs/loading.gif",
+                      width: 125.0,
+                    ),
+                    SizedBox(height: availableSpace * 0.08),
+                    Text(
+                      "Carregando sua adega",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              : vinhos.length == 0
                 ? Opacity(
-                  opacity: 0.5,
+                  opacity: 0.6,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        children: [
-                          Container(
-                            height: availableSpace * 0.4,
-                            child: SvgPicture.asset(
-                              "assets/images/wine_background.svg",
-                            ),
-                          ),
-                          SizedBox(height: availableSpace * 0.08),
-                          Text(
-                            _searchController.text == "" ? "Sua adega esta vazia" : "Nenhum vinho correspondente",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      )
+                      Container(
+                        height: availableSpace * 0.4,
+                        child: SvgPicture.asset(
+                          "assets/images/wine_background.svg",
+                        ),
+                      ),
+                      SizedBox(height: availableSpace * 0.08),
+                      Text(
+                        _searchController.text == "" ? "Sua adega esta vazia" : "Nenhum vinho correspondente",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ],
                   ),
                 ) : Padding(
