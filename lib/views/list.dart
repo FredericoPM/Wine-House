@@ -1,17 +1,25 @@
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flushbar/flushbar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import './widgets/deletePopUp.dart';
+
 import '../controllers/pesquisaAproximada.dart';
+import '../controllers/pdfGenerator.dart';
 import '../controllers/list.dart';
+
 import '../models/vinho.dart';
-import 'wineForm.dart';
-import './widgets/listCard.dart';
-import 'widgets/searchBar.dart';
-import 'infoModal.dart';
+
+import './widgets/deletePopUp.dart';
 import "./widgets/deletePopUp.dart";
+import './widgets/wineLoading.dart';
+import './widgets/listCard.dart';
+
+import 'widgets/searchBar.dart';
+import 'pdfVisualizer.dart';
+import 'infoModal.dart';
+import 'wineForm.dart';
+
 class Main_list extends StatefulWidget {
   @override
   _Main_listState createState() => _Main_listState();
@@ -19,9 +27,11 @@ class Main_list extends StatefulWidget {
 
 class _Main_listState extends State<Main_list> {
   bool loaded = false;
-  PesquisaAproximada pesquisa = new PesquisaAproximada();
-  TextEditingController _searchController = TextEditingController();
-  ListController controller = ListController();
+  final PdfGenerator pdfGenerator = new PdfGenerator();
+  final PesquisaAproximada pesquisa = new PesquisaAproximada();
+  final TextEditingController _searchController = TextEditingController();
+  final ListController controller = ListController();
+
   List<Vinho> vinhos = [];
   List<int> selecionados = [];
   void showFlushbar(BuildContext context, String text, var color){
@@ -36,10 +46,12 @@ class _Main_listState extends State<Main_list> {
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
     )..show(context);
   }
+
   void onFavorite(Vinho v){
     v.favorito = !v.favorito;
     controller.update(v).then((value) => setState(() {vinhos = controller.vinhos;}));
   }
+
   void _showModalBottomSheet(BuildContext context, Vinho vinho) {
     showModalBottomSheet<void>(
       isScrollControlled: true,
@@ -75,6 +87,10 @@ class _Main_listState extends State<Main_list> {
         );
       },
     );
+  }
+  Future<void> saveShowPDF(BuildContext context) async{
+    await pdfGenerator.savePDF();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => PdfVisualizer(path: pdfGenerator.path,)));
   }
   Future<void> loadData() async{
     await controller.getAll();
@@ -161,7 +177,7 @@ class _Main_listState extends State<Main_list> {
                               size: 30,
                               color: Theme.of(context).primaryColor,
                             ),
-                            onPressed: (){}
+                            onPressed: ()  => saveShowPDF(context),
                         ),
                         IconButton(
                             icon: Icon(
@@ -222,25 +238,9 @@ class _Main_listState extends State<Main_list> {
             ),
             Container(
               height: availableSpace * 0.9,
-              child: !loaded ? 
-              Opacity(
-                opacity: 0.6,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/gifs/loading.gif",
-                      width: 125.0,
-                    ),
-                    SizedBox(height: availableSpace * 0.08),
-                    Text(
-                      "Carregando sua adega",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
+              child: !loaded 
+              ? WineLoading(
+                text: "Carregando sua adega",
               )
               : vinhos.length == 0
                 ? Opacity(
@@ -254,7 +254,7 @@ class _Main_listState extends State<Main_list> {
                           "assets/images/wine_background.svg",
                         ),
                       ),
-                      SizedBox(height: availableSpace * 0.08),
+                      SizedBox(height: 30),
                       Text(
                         _searchController.text == "" ? "Sua adega esta vazia" : "Nenhum vinho correspondente",
                         style: TextStyle(

@@ -41,9 +41,6 @@ class Vinho {
   int get id{
     return _id;
   }
-  set id(int id){
-    _id = id;
-  }
 
   Vinho.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
