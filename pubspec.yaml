@@ -36,8 +36,10 @@ flutter_icons:
 flutter:
   uses-material-design: true
   assets:
+    - assets/vinhos.csv
     - assets/gifs/loading.gif
     - assets/images/wine_background.svg
+    - assets/images/botton_image.svg
     - assets/images/bandeiras/albania.png
     - assets/images/bandeiras/alemanha.png
     - assets/images/bandeiras/argentina.png

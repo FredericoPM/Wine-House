@@ -3,6 +3,7 @@ import 'widgets/autoCompleteField.dart';
 import 'widgets/formTextField.dart';
 import '../models/vinho.dart';
 import '../controllers/paises.dart';
+import '../controllers/csv.dart';
 
 class WineForm extends StatefulWidget {
   void Function(Vinho v) onAdd;
@@ -28,6 +29,8 @@ class _WineFormState extends State<WineForm> {
   TextEditingController _beberRPController = TextEditingController();
   TextEditingController _quantidadeController = TextEditingController();
   TextEditingController _etiquetaController = TextEditingController();
+  Csv csvController = Csv();
+
 
   final sizedBoxSpace = SizedBox(height: 16);
   Vinho vinho;
@@ -75,7 +78,9 @@ class _WineFormState extends State<WineForm> {
                 color: Theme.of(context).primaryColor,
                 size: 30,
               ),
-              onPressed: (){},
+              onPressed: (){
+                csvController.convertData();
+              },
             ),
           ],
         ),
