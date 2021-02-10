@@ -5,8 +5,8 @@ class Vinho {
   String regiao;
   String tipo;
   int safra;
-  num notaRP;
-  num notaWS;
+  String notaRP;
+  String notaWS;
   String beberRP;
   num quantidade;
   String etiqueta;

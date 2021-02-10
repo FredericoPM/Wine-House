@@ -41,8 +41,8 @@ class _WineFormState extends State<WineForm> {
       _regiaoController.text = vinho.regiao;
       _tipoController.text = vinho.tipo;
       _safraController.text = vinho.safra.toString();
-      _notaRPController.text = vinho.notaRP == -1 ? "" : vinho.notaRP.toString();
-      _notaWSController.text = vinho.notaWS == -1 ? "" : vinho.notaWS.toString();
+      _notaRPController.text = vinho.notaRP;
+      _notaWSController.text = vinho.notaWS;
       _beberRPController.text = vinho.beberRP;
       _quantidadeController.text = vinho.quantidade.toString();
       _etiquetaController.text = vinho.etiqueta;
@@ -79,7 +79,6 @@ class _WineFormState extends State<WineForm> {
                 size: 30,
               ),
               onPressed: (){
-                csvController.convertData();
               },
             ),
           ],
@@ -200,8 +199,8 @@ class _WineFormState extends State<WineForm> {
                                 regiao: _regiaoController.text,
                                 tipo: _tipoController.text,
                                 safra: _safraController.text == "" ? -1 : int.parse(_safraController.text),
-                                notaRP: _notaRPController.text == "" ? -1 : int.parse(_notaRPController.text),
-                                notaWS: _notaWSController.text == "" ? -1 : int.parse(_notaWSController.text),
+                                notaRP: _notaRPController.text,
+                                notaWS: _notaWSController.text,
                                 beberRP: _beberRPController.text,
                                 quantidade: int.parse(_quantidadeController.text),
                                 etiqueta: _etiquetaController.text,
@@ -214,8 +213,8 @@ class _WineFormState extends State<WineForm> {
                                 regiao: _regiaoController.text,
                                 tipo: _tipoController.text,
                                 safra: int.parse(_safraController.text),
-                                notaRP: _notaRPController.text == "" ? -1 : int.parse(_notaRPController.text),
-                                notaWS: _notaWSController.text == "" ? -1 : int.parse(_notaWSController.text),
+                                notaRP: _notaRPController.text,
+                                notaWS: _notaWSController.text,
                                 beberRP: _beberRPController.text,
                                 quantidade: int.parse(_quantidadeController.text),
                                 etiqueta: _etiquetaController.text,
