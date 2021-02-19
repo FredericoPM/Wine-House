@@ -79,6 +79,7 @@ class _WineFormState extends State<WineForm> {
                 size: 30,
               ),
               onPressed: (){
+                csvController.convertData(widget.onAdd);
               },
             ),
           ],

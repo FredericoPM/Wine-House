@@ -27,7 +27,7 @@ class Main_list extends StatefulWidget {
 
 class _Main_listState extends State<Main_list> {
   bool loaded = false;
-  final PdfGenerator pdfGenerator = new PdfGenerator();
+  PdfGenerator pdfGenerator;
   final PesquisaAproximada pesquisa = new PesquisaAproximada();
   final TextEditingController _searchController = TextEditingController();
   final ListController controller = ListController();
@@ -94,11 +94,11 @@ class _Main_listState extends State<Main_list> {
   }
   Future<void> loadData() async{
     await controller.getAll();
-    setState(() {vinhos = controller.vinhos;});
     setState(() {
+      vinhos = controller.vinhos;
       loaded = true;
     });
-    
+    pdfGenerator = new PdfGenerator(vinhos);
   }
   @override
   void initState() {
