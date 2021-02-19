@@ -25,10 +25,10 @@ class PdfGenerator{
     return _path;
   }
   Future<pw.PageTheme> _theme() async {
-    final botomImage = await rootBundle.loadString('assets/images/botton_image.svg');
     return pw.PageTheme(
       pageFormat: PdfPageFormat.a4,
       orientation: PageOrientation.landscape,
+      margin: const pw.EdgeInsets.fromLTRB(5,10,5,10),
       // theme: pw.ThemeData.withFont(
       //   base: pw.Font.ttf(await rootBundle.load('assets/open-sans.ttf')),
       //   bold: pw.Font.ttf(await rootBundle.load('assets/open-sans-bold.ttf')),
@@ -40,50 +40,71 @@ class PdfGenerator{
   pw.Widget _contentTable(pw.Context context) {
     const tableHeaders = [
       "Nome",
-      "Pais",
       "Regiao",
       "Tipo",
       "Safra",
       "R.P.",
       "W.S.",
       "Beber R.P.",
+      "Estoque",
       "Etiqueta",
-      "Estoque"
     ];
     return pw.Table.fromTextArray(
       border: null,
       cellAlignment: pw.Alignment.centerLeft,
       headerDecoration: pw.BoxDecoration(
         borderRadius: const pw.BorderRadius.all(pw.Radius.circular(2)),
-        color: PdfColor.fromHex("0xFF942641"),
+        color: PdfColor.fromHex("942641"),
       ),
       headerHeight: 25,
       cellHeight: 40,
+      columnWidths: { 
+        0 : FixedColumnWidth(400),
+        1 : FixedColumnWidth(100),
+        2 : FixedColumnWidth(80),
+        3 : FixedColumnWidth(80),
+        4 : FixedColumnWidth(80),
+        5 : FixedColumnWidth(80),
+        6 : FixedColumnWidth(100),
+        7 : FixedColumnWidth(80),
+        8 : FixedColumnWidth(250),
+      },
       cellAlignments: {
         0: pw.Alignment.centerLeft,
         1: pw.Alignment.centerLeft,
         2: pw.Alignment.centerLeft,
-        3: pw.Alignment.centerLeft,
+        3: pw.Alignment.center,
+        4: pw.Alignment.center,
+        5: pw.Alignment.center,
+        6: pw.Alignment.center,
+        7: pw.Alignment.center,
+        8: pw.Alignment.centerLeft,
+      },
+      headerAlignments: {
+        0: pw.Alignment.center,
+        1: pw.Alignment.center,
+        2: pw.Alignment.center,
+        3: pw.Alignment.center,
         4: pw.Alignment.center,
         5: pw.Alignment.center,
         6: pw.Alignment.center,
         7: pw.Alignment.center,
         8: pw.Alignment.center,
-        9: pw.Alignment.centerRight,
       },
       headerStyle: pw.TextStyle(
-        color: PdfColor.fromHex("0xFF000000"),
+        color: PdfColors.white,
         fontSize: 10,
         fontWeight: pw.FontWeight.bold,
       ),
-      cellStyle: pw.TextStyle(
-        color: PdfColor.fromHex("0xFFffffff"),
+      cellStyle: const pw.TextStyle(
+        color: PdfColors.black,
         fontSize: 10,
       ),
+      
       rowDecoration: pw.BoxDecoration(
         border: pw.Border(
           bottom: pw.BorderSide(
-            color: PdfColor.fromHex("0xFFffffff"),
+            color: PdfColors.black,
             width: .5,
           ),
         ),
@@ -96,7 +117,39 @@ class PdfGenerator{
         vinhos.length,
         (row) => List<String>.generate(
           tableHeaders.length,  
-          (col) => "teste",
+          (col) {
+            switch (col) {
+              case 0:
+                return vinhos[row].nome;
+              break;
+              case 1:
+                return vinhos[row].regiao;
+              break;
+              case 2:
+                return vinhos[row].tipo;
+              break;
+              case 3:
+                return vinhos[row].safra.toString();
+              break;
+              case 4:
+                return vinhos[row].notaRP == "" ? "-" : vinhos[row].notaRP;
+              break;
+              case 5:
+                return vinhos[row].notaWS == "" ? "-" : vinhos[row].notaWS;
+              break;
+              case 6:
+                return vinhos[row].beberRP == "Não informado" ? "-" : vinhos[row].beberRP;
+              break;
+              case 7:
+                return vinhos[row].quantidade.toString();
+              break;
+              case 8:
+                return vinhos[row].etiqueta;
+              break;
+              default:
+                return "teste";
+            }
+          },
         ),
       ),
     );
