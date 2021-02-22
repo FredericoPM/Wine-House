@@ -13,13 +13,25 @@ class PdfGenerator{
   Directory _directory;
   String _path;
   List<Vinho> vinhos;
-  Future<void> loadDirectory() async {
+  var image;
+  bool ready = false;
+  Future<void> _loadDirectory() async {
+    image = await rootBundle.loadString("assets/images/bandeiras/franca.svg");
     _directory = await getApplicationDocumentsDirectory();
     _path = '${_directory.path}/example.pdf';
   }
-
+  Future<void> _formatData(){
+    vinhos.sort((a, b) {
+     final pais = a.pais.compareTo(b.pais);
+     final regiao = a.regiao.compareTo(b.regiao);
+     final nome = a.nome.compareTo(b.nome);
+     return pais == 0 ? regiao  == 0 ? nome == 0 ? a.safra.compareTo(b.safra) : a.nome.compareTo(b.nome) : a.regiao.compareTo(b.regiao) : a.pais.compareTo(b.pais);
+    });
+    ready = true;
+  }
   PdfGenerator(this.vinhos){
-     loadDirectory();
+    _formatData();
+     _loadDirectory();
   }
   get path{
     return _path;
@@ -36,7 +48,45 @@ class PdfGenerator{
       // ),
     );
   }
-
+  pw.Widget _flag (String pais){
+    return pw.Container(
+      height: 72,
+      child:
+          pw.SvgImage(svg: image),
+    );
+  }
+  pw.Widget _header(pw.Context context){
+    return 
+    pw.Padding(
+      padding: pw.EdgeInsets.fromLTRB(0,5,0,15),
+      child: pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          _flag("s"),
+          pw.Column(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+            children: [
+              pw.Text(
+                "Wine house",
+                style: pw.TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                "França",
+                style: pw.TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ]
+          ),
+          _flag("s"),
+        ],
+      ),
+    );
+    
+  }
   pw.Widget _contentTable(pw.Context context) {
     const tableHeaders = [
       "Nome",
@@ -66,19 +116,19 @@ class PdfGenerator{
         4 : FixedColumnWidth(80),
         5 : FixedColumnWidth(80),
         6 : FixedColumnWidth(100),
-        7 : FixedColumnWidth(80),
-        8 : FixedColumnWidth(250),
+        7 : FixedColumnWidth(240),
+        8 : FixedColumnWidth(100),
       },
       cellAlignments: {
         0: pw.Alignment.centerLeft,
-        1: pw.Alignment.centerLeft,
-        2: pw.Alignment.centerLeft,
+        1: pw.Alignment.center,
+        2: pw.Alignment.center,
         3: pw.Alignment.center,
         4: pw.Alignment.center,
         5: pw.Alignment.center,
         6: pw.Alignment.center,
-        7: pw.Alignment.center,
-        8: pw.Alignment.centerLeft,
+        7: pw.Alignment.centerLeft,
+        8: pw.Alignment.center,
       },
       headerAlignments: {
         0: pw.Alignment.center,
@@ -118,36 +168,49 @@ class PdfGenerator{
         (row) => List<String>.generate(
           tableHeaders.length,  
           (col) {
-            switch (col) {
-              case 0:
-                return vinhos[row].nome;
-              break;
-              case 1:
-                return vinhos[row].regiao;
-              break;
-              case 2:
-                return vinhos[row].tipo;
-              break;
-              case 3:
-                return vinhos[row].safra.toString();
-              break;
-              case 4:
-                return vinhos[row].notaRP == "" ? "-" : vinhos[row].notaRP;
-              break;
-              case 5:
-                return vinhos[row].notaWS == "" ? "-" : vinhos[row].notaWS;
-              break;
-              case 6:
-                return vinhos[row].beberRP == "Não informado" ? "-" : vinhos[row].beberRP;
-              break;
-              case 7:
-                return vinhos[row].quantidade.toString();
-              break;
-              case 8:
-                return vinhos[row].etiqueta;
-              break;
-              default:
-                return "teste";
+            if(vinhos[row].regiao == vinhos[row+1].regiao){
+              switch (col) {
+                case 0:
+                  return "${vinhos[row].regiao} (Total)";
+                break;
+                case 8:
+                  return "69";
+                break;
+                default:
+                  return "";
+              }
+            }else{
+              switch (col) {
+                case 0:
+                  return vinhos[row].nome;
+                break;
+                case 1:
+                  return vinhos[row].regiao;
+                break;
+                case 2:
+                  return vinhos[row].tipo;
+                break;
+                case 3:
+                  return vinhos[row].safra.toString();
+                break;
+                case 4:
+                  return vinhos[row].notaRP == "" ? "-" : vinhos[row].notaRP;
+                break;
+                case 5:
+                  return vinhos[row].notaWS == "" ? "-" : vinhos[row].notaWS;
+                break;
+                case 6:
+                  return vinhos[row].beberRP == "Não informado" ? "-" : vinhos[row].beberRP;
+                break;
+                case 7:
+                  return vinhos[row].etiqueta;
+                break;
+                case 8:
+                  return vinhos[row].quantidade.toString();
+                break;
+                default:
+                  return "teste";
+              }
             }
           },
         ),
@@ -156,17 +219,20 @@ class PdfGenerator{
   }
 
   Future<void> savePDF() async {
+    while(!ready){}
     _pdf = pw.Document();
     final pageTheme = await _theme();
     _pdf.addPage(
       pw.MultiPage(
+        header: _header,
         pageTheme: pageTheme,
         build: (pw.Context context) => [
           _contentTable(context),
+          pw.NewPage(),
+          pw.Text("teste"),
         ]
       ),
     );
-
     try{
       final file = await File(_path);
       await file.writeAsBytes(await _pdf.save());

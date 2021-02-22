@@ -33,7 +33,7 @@ class ListCard extends StatelessWidget {
               )
             )
             : FlagDisplay(
-              imagePath: paisesController.imageExist(vinho) ? paisesController.imagePath(vinho) : null,
+              imagePath: paisesController.imageExist(vinho) ? paisesController.iconPath(vinho) : null,
             ),
             title: AutoSizeText(
               vinho.nome, style:
