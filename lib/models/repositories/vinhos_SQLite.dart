@@ -8,7 +8,7 @@ class VinhosSQLite{
   }
   Future<void> DBconstructor() async{
     _database = await openDatabase(
-      join(await getDatabasesPath(), 'vinhos_database.db'),
+      join(await getDatabasesPath(), 'vinhos_database1.db'),
       onCreate: (db, version) {
         return db.execute(
           """CREATE TABLE Vinhos (
