@@ -58,11 +58,6 @@ class _PdfVisualizerState extends State<PdfVisualizer> {
         body: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Container(
-              height: availableSpace,
-              width: MediaQuery.of(context).size.width,
-              color: Color(0xFFfafafa),
-            ),
             PDFView(
               filePath: widget.path,
               autoSpacing: true,
