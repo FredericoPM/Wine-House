@@ -19,6 +19,7 @@ dependencies:
   pdf: ^2.0.0
   flutter_pdfview: ^1.0.4
   path_provider: ^1.6.27
+  share: ^0.6.5+4
 
 dev_dependencies:
   flutter_test:

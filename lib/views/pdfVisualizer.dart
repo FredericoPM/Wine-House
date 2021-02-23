@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import './widgets/wineLoading.dart';
-import 'package:intl/intl.dart';
 class PdfVisualizer extends StatefulWidget {
   String path;
   PdfVisualizer({Key key, this.path}) : super(key: key);
@@ -15,7 +15,9 @@ class _PdfVisualizerState extends State<PdfVisualizer> {
   bool pdfLoaded = false;
   int _total = 0;
   int _atual = 1;
+
   @override
+
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
       backgroundColor: Colors.transparent,
@@ -43,7 +45,10 @@ class _PdfVisualizerState extends State<PdfVisualizer> {
             color: Theme.of(context).primaryColor,
             size: 30,
           ),
-          onPressed: (){},
+          onPressed: (){
+            final RenderBox box = context.findRenderObject();
+            Share.shareFiles([widget.path], text:"Veja minha Carta de vinhos:", sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+          },
         ),
       ],
     );
@@ -53,6 +58,11 @@ class _PdfVisualizerState extends State<PdfVisualizer> {
         body: Stack(
           alignment: Alignment.bottomCenter,
           children: [
+            Container(
+              height: availableSpace,
+              width: MediaQuery.of(context).size.width,
+              color: Color(0xFFfafafa),
+            ),
             PDFView(
               filePath: widget.path,
               autoSpacing: true,

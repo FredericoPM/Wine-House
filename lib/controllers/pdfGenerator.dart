@@ -13,25 +13,80 @@ class PdfGenerator{
   Directory _directory;
   String _path;
   List<Vinho> vinhos;
+  List<List<String>> _data = [];
   var image;
   bool ready = false;
   Future<void> _loadDirectory() async {
     image = await rootBundle.loadString("assets/images/bandeiras/franca.svg");
     _directory = await getApplicationDocumentsDirectory();
-    _path = '${_directory.path}/example.pdf';
+    _path = '${_directory.path}/carta_de_vinhos.pdf';
   }
-  Future<void> _formatData(){
+  Future<void> _sortData() async{
     vinhos.sort((a, b) {
      final pais = a.pais.compareTo(b.pais);
      final regiao = a.regiao.compareTo(b.regiao);
      final nome = a.nome.compareTo(b.nome);
      return pais == 0 ? regiao  == 0 ? nome == 0 ? a.safra.compareTo(b.safra) : a.nome.compareTo(b.nome) : a.regiao.compareTo(b.regiao) : a.pais.compareTo(b.pais);
     });
-    ready = true;
+  }
+  Future<void> _formatData() async{
+    _data = [];
+    List<String> aux = [];
+    for(int i = 0; i<vinhos.length; i++){
+      for(int j=0; j<9;j++){
+        switch (j) {
+          case 0:
+            aux.add(vinhos[i].nome);
+          break;
+          case 1:
+            aux.add(vinhos[i].regiao);
+          break;
+          case 2:
+            aux.add(vinhos[i].tipo);
+          break;
+          case 3:
+            aux.add(vinhos[i].safra.toString());
+          break;
+          case 4:
+            aux.add(vinhos[i].notaRP == "" ? "-" : vinhos[i].notaRP);
+          break;
+          case 5:
+            aux.add(vinhos[i].notaWS == "" ? "-" : vinhos[i].notaWS);
+          break;
+          case 6:
+            aux.add(vinhos[i].beberRP == "Não informado" ? "-" : vinhos[i].beberRP);
+          break;
+          case 7:
+            aux.add(vinhos[i].etiqueta);
+          break;
+          case 8:
+            aux.add(vinhos[i].quantidade.toString());
+          break;
+        }
+      }
+      _data.add(aux);
+      aux = [];
+      if(i == vinhos.length-1 || vinhos[i].regiao != vinhos[i+1].regiao){
+        aux.add("${vinhos[i].regiao} (TOTAL)");
+        for(int j=0; j<7;j++)
+          aux.add("");
+        var auxList = vinhos.where((element) => element.regiao == vinhos[i].regiao).toList();
+        var quantidade = 0;
+        for(int j=0; j<auxList.length;j++)
+         quantidade += auxList[j].quantidade;
+        aux.add("$quantidade");
+        _data.add(aux);
+        aux = [];
+      }
+    }
   }
   PdfGenerator(this.vinhos){
-    _formatData();
-     _loadDirectory();
+    _sortData().then(
+      (_) =>_formatData().then(
+        (_) => { ready = true }
+      )
+    );
+    _loadDirectory();
   }
   get path{
     return _path;
@@ -96,8 +151,8 @@ class PdfGenerator{
       "R.P.",
       "W.S.",
       "Beber R.P.",
-      "Estoque",
       "Etiqueta",
+      "Estoque",
     ];
     return pw.Table.fromTextArray(
       border: null,
@@ -163,58 +218,7 @@ class PdfGenerator{
         tableHeaders.length,
         (col) => tableHeaders[col],
       ),
-      data: List<List<String>>.generate(
-        vinhos.length,
-        (row) => List<String>.generate(
-          tableHeaders.length,  
-          (col) {
-            if(vinhos[row].regiao == vinhos[row+1].regiao){
-              switch (col) {
-                case 0:
-                  return "${vinhos[row].regiao} (Total)";
-                break;
-                case 8:
-                  return "69";
-                break;
-                default:
-                  return "";
-              }
-            }else{
-              switch (col) {
-                case 0:
-                  return vinhos[row].nome;
-                break;
-                case 1:
-                  return vinhos[row].regiao;
-                break;
-                case 2:
-                  return vinhos[row].tipo;
-                break;
-                case 3:
-                  return vinhos[row].safra.toString();
-                break;
-                case 4:
-                  return vinhos[row].notaRP == "" ? "-" : vinhos[row].notaRP;
-                break;
-                case 5:
-                  return vinhos[row].notaWS == "" ? "-" : vinhos[row].notaWS;
-                break;
-                case 6:
-                  return vinhos[row].beberRP == "Não informado" ? "-" : vinhos[row].beberRP;
-                break;
-                case 7:
-                  return vinhos[row].etiqueta;
-                break;
-                case 8:
-                  return vinhos[row].quantidade.toString();
-                break;
-                default:
-                  return "teste";
-              }
-            }
-          },
-        ),
-      ),
+      data: _data,
     );
   }
 
@@ -228,8 +232,8 @@ class PdfGenerator{
         pageTheme: pageTheme,
         build: (pw.Context context) => [
           _contentTable(context),
-          pw.NewPage(),
-          pw.Text("teste"),
+          // pw.NewPage(),
+          // pw.Text("teste"),
         ]
       ),
     );
