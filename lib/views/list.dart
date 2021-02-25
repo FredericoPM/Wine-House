@@ -17,7 +17,6 @@ import './widgets/wineLoading.dart';
 import './widgets/listCard.dart';
 
 import 'widgets/searchBar.dart';
-import 'pdfVisualizer.dart';
 import 'infoModal.dart';
 import 'wineForm.dart';
 
@@ -88,9 +87,10 @@ class _Main_listState extends State<Main_list> {
   //   Navigator.push(context, MaterialPageRoute(builder: (context) => PdfVisualizer(path: pdfGenerator.path,)));
   // }
   Future<void> saveSharePDF() async{
-    await pdfGenerator.savePDF();
-    final RenderBox box = context.findRenderObject();
-    Share.shareFiles([pdfGenerator.path], text:"Veja minha Carta de vinhos:", sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    pdfGenerator.savePDF(vinhos).then((_) {
+      final RenderBox box = context.findRenderObject();
+      Share.shareFiles([pdfGenerator.path], text:"Veja minha Carta de vinhos:", sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    });
   }
   Future<void> loadData() async{
     await controller.getAll();
@@ -98,7 +98,7 @@ class _Main_listState extends State<Main_list> {
       vinhos = controller.vinhos;
       loaded = true;
     });
-    pdfGenerator = new PdfGenerator(vinhos);
+    pdfGenerator = new PdfGenerator();
   }
   @override
   void initState() {

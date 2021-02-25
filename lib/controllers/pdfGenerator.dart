@@ -12,7 +12,7 @@ class PdfGenerator{
   var _pdf;
   Directory _directory;
   String _path;
-  List<Vinho> vinhos;
+  List<Vinho> _vinhos;
   List<List<String>> _data = [];
   var image;
   bool ready = false;
@@ -22,7 +22,7 @@ class PdfGenerator{
     _path = '${_directory.path}/carta_de_vinhos.pdf';
   }
   Future<void> _sortData() async{
-    vinhos.sort((a, b) {
+    _vinhos.sort((a, b) {
      final pais = a.pais.compareTo(b.pais);
      final regiao = a.regiao.compareTo(b.regiao);
      final nome = a.nome.compareTo(b.nome);
@@ -32,60 +32,82 @@ class PdfGenerator{
   Future<void> _formatData() async{
     _data = [];
     List<String> aux = [];
-    for(int i = 0; i<vinhos.length; i++){
-      for(int j=0; j<9;j++){
+    for(int i = 0; i<_vinhos.length; i++){
+      if(i == 0){
+        aux.add("${_vinhos[i].regiao}");
+        for(int j=0; j<7;j++)
+          aux.add("");
+        _data.add(aux);
+        aux = [];
+      }else if(_data.length % 11 == 0){
+        aux.add("${_vinhos[i].regiao} (Continuação)");
+        for(int j=0; j<7;j++)
+          aux.add("");
+        _data.add(aux);
+        aux = [];
+      }
+      for(int j=0; j<8;j++){
         switch (j) {
           case 0:
-            aux.add(vinhos[i].nome);
+            aux.add(_vinhos[i].nome);
           break;
           case 1:
-            aux.add(vinhos[i].regiao);
+            aux.add(_vinhos[i].tipo);
           break;
           case 2:
-            aux.add(vinhos[i].tipo);
+            aux.add(_vinhos[i].safra.toString());
           break;
           case 3:
-            aux.add(vinhos[i].safra.toString());
+            aux.add(_vinhos[i].notaRP == "" ? "-" : _vinhos[i].notaRP);
           break;
           case 4:
-            aux.add(vinhos[i].notaRP == "" ? "-" : vinhos[i].notaRP);
+            aux.add(_vinhos[i].notaWS == "" ? "-" : _vinhos[i].notaWS);
           break;
           case 5:
-            aux.add(vinhos[i].notaWS == "" ? "-" : vinhos[i].notaWS);
+            aux.add(_vinhos[i].beberRP == "Não informado" ? "-" : _vinhos[i].beberRP);
           break;
           case 6:
-            aux.add(vinhos[i].beberRP == "Não informado" ? "-" : vinhos[i].beberRP);
+            aux.add(_vinhos[i].etiqueta);
           break;
           case 7:
-            aux.add(vinhos[i].etiqueta);
-          break;
-          case 8:
-            aux.add(vinhos[i].quantidade.toString());
+            aux.add(_vinhos[i].quantidade.toString());
           break;
         }
       }
       _data.add(aux);
       aux = [];
-      if(i == vinhos.length-1 || vinhos[i].regiao != vinhos[i+1].regiao){
-        aux.add("${vinhos[i].regiao} (TOTAL)");
-        for(int j=0; j<7;j++)
+      if(i == _vinhos.length-1 || _vinhos[i].regiao != _vinhos[i+1].regiao){
+        aux.add("${_vinhos[i].regiao} (TOTAL)");
+        for(int j=0; j<6;j++)
           aux.add("");
-        var auxList = vinhos.where((element) => element.regiao == vinhos[i].regiao).toList();
+        var auxList = _vinhos.where((element) => element.regiao == _vinhos[i].regiao).toList();
         var quantidade = 0;
         for(int j=0; j<auxList.length;j++)
          quantidade += auxList[j].quantidade;
         aux.add("$quantidade");
         _data.add(aux);
         aux = [];
+
+        if(i != _vinhos.length-1){
+          if(_data.length % 11 == 10){
+            for(int j=0; j<8;j++)
+              aux.add("");
+            _data.add(aux);
+            aux = [];
+          }
+          aux.add("${_vinhos[i+1].regiao}");
+          for(int j=0; j<7;j++)
+            aux.add("");
+          _data.add(aux);
+          aux = [];
+        }
       }
     }
+    // _data.forEach((element) {
+    //   print("$element \n");
+    // });
   }
-  PdfGenerator(this.vinhos){
-    _sortData().then(
-      (_) =>_formatData().then(
-        (_) => { ready = true }
-      )
-    );
+  PdfGenerator(){
     _loadDirectory();
   }
   get path{
@@ -145,7 +167,6 @@ class PdfGenerator{
   pw.Widget _contentTable(pw.Context context) {
     const tableHeaders = [
       "Nome",
-      "Regiao",
       "Tipo",
       "Safra",
       "R.P.",
@@ -165,14 +186,13 @@ class PdfGenerator{
       cellHeight: 40,
       columnWidths: { 
         0 : FixedColumnWidth(400),
-        1 : FixedColumnWidth(100),
-        2 : FixedColumnWidth(80),
-        3 : FixedColumnWidth(80),
-        4 : FixedColumnWidth(80),
-        5 : FixedColumnWidth(80),
-        6 : FixedColumnWidth(100),
-        7 : FixedColumnWidth(240),
-        8 : FixedColumnWidth(100),
+        1 : FixedColumnWidth(90),
+        2 : FixedColumnWidth(90),
+        3 : FixedColumnWidth(90),
+        4 : FixedColumnWidth(90),
+        5 : FixedColumnWidth(90),
+        6 : FixedColumnWidth(300),
+        7 : FixedColumnWidth(80),
       },
       cellAlignments: {
         0: pw.Alignment.centerLeft,
@@ -181,9 +201,8 @@ class PdfGenerator{
         3: pw.Alignment.center,
         4: pw.Alignment.center,
         5: pw.Alignment.center,
-        6: pw.Alignment.center,
-        7: pw.Alignment.centerLeft,
-        8: pw.Alignment.center,
+        6: pw.Alignment.centerLeft,
+        7: pw.Alignment.center,
       },
       headerAlignments: {
         0: pw.Alignment.center,
@@ -194,7 +213,6 @@ class PdfGenerator{
         5: pw.Alignment.center,
         6: pw.Alignment.center,
         7: pw.Alignment.center,
-        8: pw.Alignment.center,
       },
       headerStyle: pw.TextStyle(
         color: PdfColors.white,
@@ -222,26 +240,32 @@ class PdfGenerator{
     );
   }
 
-  Future<void> savePDF() async {
-    while(!ready){}
+  Future<void> savePDF(List<Vinho> vinhos) async {
+    _vinhos = vinhos;
     _pdf = pw.Document();
     final pageTheme = await _theme();
-    _pdf.addPage(
-      pw.MultiPage(
-        header: _header,
-        pageTheme: pageTheme,
-        build: (pw.Context context) => [
-          _contentTable(context),
-          // pw.NewPage(),
-          // pw.Text("teste"),
-        ]
-      ),
+    _sortData().then(
+      (_) =>_formatData().then(
+        (_) async { 
+          _pdf.addPage(
+            pw.MultiPage(
+              header: _header,
+              pageTheme: pageTheme,
+              build: (pw.Context context) => [
+                _contentTable(context),
+                // pw.NewPage(),
+                // pw.Text("teste"),
+              ]
+            ),
+          );
+          try{
+            final file = await File(_path);
+            await file.writeAsBytes(await _pdf.save());
+          }catch(e){
+            print(e);
+          }
+        }
+      )
     );
-    try{
-      final file = await File(_path);
-      await file.writeAsBytes(await _pdf.save());
-    }catch(e){
-      print(e);
-    }
   }
 }

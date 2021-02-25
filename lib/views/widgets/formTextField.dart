@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../controllers/pesquisaAproximada.dart';
+import 'package:flutter/services.dart';
 class FormTextField extends StatefulWidget {
   TextEditingController controller = TextEditingController();
   String labelText;
   String errorText;
-  void Function(String text) onChanged;
   void Function() onFocusExit;
   var keyboardType;
-  FormTextField({this.controller, this.labelText, this.errorText, this.onChanged, this.keyboardType = TextInputType.text, this.onFocusExit});
+  int maxLength;
+  FormTextField({this.controller, this.labelText, this.errorText, this.keyboardType = TextInputType.text, this.onFocusExit, this.maxLength});
   @override
   _FormTextFieldState createState() => _FormTextFieldState();
 }
@@ -27,7 +27,8 @@ class _FormTextFieldState extends State<FormTextField> {
                 }
               },
               child:TextFormField(
-                maxLines: null,
+                maxLengthEnforced: true,
+                maxLength: widget.maxLength,
                 keyboardType: widget.keyboardType,
                 enabled: true,
                 controller: widget.controller,
@@ -36,10 +37,6 @@ class _FormTextFieldState extends State<FormTextField> {
                     return widget.errorText;
                   else
                     return null;
-                },
-                onChanged: (text) => {
-                  if(widget.onChanged != null)
-                    widget.onChanged(text)
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(16,8,16,8),
@@ -67,8 +64,6 @@ class _FormTextFieldState extends State<FormTextField> {
                     icon: Icon(Icons.clear, color: Colors.grey,),
                     onPressed: () {
                       setState(() { widget.controller.text = ""; });
-                      if(widget.onChanged != null)
-                        widget.onChanged(widget.controller.text);
                     },
                   ) : null,
                   filled: true,
