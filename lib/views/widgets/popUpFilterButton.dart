@@ -67,17 +67,17 @@ class _PopUpFilterButtonState extends State<PopUpFilterButton> {
             ),
           ),
         ),
-        const PopupMenuDivider(),
-        PopupMenuItem<String>(
-          value: "fv",
-          child: ListTile(
-            leading: Icon(Icons.favorite, color: widget.controller.favoritePriority ? Theme.of(context).accentColor : Colors.grey[700]),
-            title: Text(
-              "Favoritos",
-              style: TextStyle(fontWeight: widget.controller.favoritePriority ? FontWeight.bold : null),
-            ),
-          ),
-        ),
+        // const PopupMenuDivider(),
+        // PopupMenuItem<String>(
+        //   value: "fv",
+        //   child: ListTile(
+        //     leading: Icon(Icons.favorite, color: widget.controller.favoritePriority ? Theme.of(context).accentColor : Colors.grey[700]),
+        //     title: Text(
+        //       "Favoritos",
+        //       style: TextStyle(fontWeight: widget.controller.favoritePriority ? FontWeight.bold : null),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

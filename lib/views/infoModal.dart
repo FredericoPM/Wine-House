@@ -10,10 +10,9 @@ class InfoModal extends StatefulWidget {
   Vinho vinho;
   bool imageExist;
   PaisesController paisesController = PaisesController();
-  void Function() onFavorite;
   void Function(int id) onDelete;
   Vinho Function(Vinho vinho) onEddit;
-  InfoModal({this.vinho, this.onDelete, this.onFavorite, this.onEddit}){
+  InfoModal({this.vinho, this.onDelete, this.onEddit}){
     imageExist = paisesController.imageExist(vinho);
   }
   @override
@@ -47,32 +46,19 @@ class _InfoModalState extends State<InfoModal> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            TrasparentIconButton(
-                              icon: vinho.favorito ? Icons.favorite : Icons.favorite_outline,
-                              color: Theme.of(context).errorColor,
-                              onPressed: (){
+                        TrasparentIconButton(
+                          icon: Icons.edit,
+                          color: Theme.of(context).accentColor,
+                          onPressed: () => Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => WineForm(
+                              vinho: vinho,
+                              onEddit: (Vinho v) =>setState(() {
                                 setState(() {
-                                  widget.onFavorite();
+                                  vinho = widget.onEddit(v);
                                 });
-                              },
-                            ),
-                            TrasparentIconButton(
-                              icon: Icons.edit,
-                              color: Theme.of(context).accentColor,
-                              onPressed: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => WineForm(
-                                  vinho: vinho,
-                                  onEddit: (Vinho v) =>setState(() {
-                                    setState(() {
-                                      vinho = widget.onEddit(v);
-                                    });
-                                  }),
-                                ))
-                              ),
-                            ),
-                          ],
+                              }),
+                            ))
+                          ),
                         ),
                         TrasparentIconButton(
                           icon: Icons.delete,
@@ -88,30 +74,18 @@ class _InfoModalState extends State<InfoModal> {
           ): Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                      icon: Icon(vinho.favorito ? Icons.favorite : Icons.favorite_outline, color: Theme.of(context).errorColor, size: 30,),
-                      onPressed: (){
-                        setState(() {
-                          widget.onFavorite();
-                        });
-                      }
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.edit, color: Theme.of(context).accentColor, size: 30),
-                    onPressed: () => Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => WineForm(
-                      vinho: vinho,
-                      onEddit: (Vinho v) {
-                        setState(() {
-                          vinho = widget.onEddit(v);
-                        });
-                      },
-                    ))
-                    ),
-                  ),
-                ],
+              IconButton(
+                icon: Icon(Icons.edit, color: Theme.of(context).accentColor, size: 30),
+                onPressed: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => WineForm(
+                  vinho: vinho,
+                  onEddit: (Vinho v) {
+                    setState(() {
+                      vinho = widget.onEddit(v);
+                    });
+                  },
+                ))
+                ),
               ),
               IconButton(
                   icon: Icon(Icons.delete, color: Theme.of(context).primaryColor, size: 30,),

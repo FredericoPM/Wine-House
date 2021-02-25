@@ -219,7 +219,6 @@ class _WineFormState extends State<WineForm> {
                                 beberRP: _beberRPController.text,
                                 quantidade: int.parse(_quantidadeController.text),
                                 etiqueta: _etiquetaController.text,
-                                favorito: vinho.favorito,
                               ));
                               Navigator.of(context).pop();
                             }

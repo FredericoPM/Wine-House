@@ -3,6 +3,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share/share.dart';
 
 import '../controllers/pesquisaAproximada.dart';
 import '../controllers/pdfGenerator.dart';
@@ -47,11 +48,6 @@ class _Main_listState extends State<Main_list> {
     )..show(context);
   }
 
-  void onFavorite(Vinho v){
-    v.favorito = !v.favorito;
-    controller.update(v).then((value) => setState(() {vinhos = controller.vinhos;}));
-  }
-
   void _showModalBottomSheet(BuildContext context, Vinho vinho) {
     showModalBottomSheet<void>(
       isScrollControlled: true,
@@ -65,7 +61,6 @@ class _Main_listState extends State<Main_list> {
       builder: (context) {
         return InfoModal(
           vinho: vinho,
-          onFavorite: () => onFavorite(vinho),
           onDelete: (int id) {
             showDialog(
                 context: context,
@@ -88,9 +83,14 @@ class _Main_listState extends State<Main_list> {
       },
     );
   }
-  Future<void> saveShowPDF(BuildContext context) async{
+  // Future<void> saveShowPDF(BuildContext context) async{
+  //   await pdfGenerator.savePDF();
+  //   Navigator.push(context, MaterialPageRoute(builder: (context) => PdfVisualizer(path: pdfGenerator.path,)));
+  // }
+  Future<void> saveSharePDF() async{
     await pdfGenerator.savePDF();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PdfVisualizer(path: pdfGenerator.path,)));
+    final RenderBox box = context.findRenderObject();
+    Share.shareFiles([pdfGenerator.path], text:"Veja minha Carta de vinhos:", sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
   Future<void> loadData() async{
     await controller.getAll();
@@ -171,13 +171,21 @@ class _Main_listState extends State<Main_list> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        // IconButton(
+                        //     icon: Icon(
+                        //       Icons.file_download,
+                        //       size: 30,
+                        //       color: Theme.of(context).primaryColor,
+                        //     ),
+                        //     onPressed: ()  => saveShowPDF(context),
+                        // ),
                         IconButton(
-                            icon: Icon(
-                              Icons.file_download,
-                              size: 30,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            onPressed: ()  => saveShowPDF(context),
+                          icon: Icon(
+                            Icons.share,
+                            color: Theme.of(context).primaryColor,
+                            size: 30,
+                          ),
+                          onPressed: () => saveSharePDF(),
                         ),
                         IconButton(
                             icon: Icon(
@@ -271,7 +279,6 @@ class _Main_listState extends State<Main_list> {
                         return ListCard(
                           vinho: vinhos[index],
                           selected: selecionados.indexOf(vinhos[index].id) != -1,
-                          onFavorite: () => onFavorite(vinhos[index]),
                           onTap: (BuildContext context, bool selected) {
                             if(selected)
                               setState(() {selecionados.remove(vinhos[index].id);});

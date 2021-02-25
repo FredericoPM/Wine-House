@@ -5,11 +5,10 @@ import '../../controllers/paises.dart';
 import 'flagDisplay.dart';
 class ListCard extends StatelessWidget {
   final Vinho vinho;
-  void Function() onFavorite;
   void Function(bool selected) onLongPress;
   void Function(BuildContext context, bool selected) onTap;
   bool selected;
-  ListCard({this.vinho, this.onFavorite, this.onTap, this.onLongPress, this.selected});
+  ListCard({this.vinho, this.onTap, this.onLongPress, this.selected});
   int index = 0;
   PaisesController paisesController = PaisesController();
   @override
@@ -41,14 +40,6 @@ class ListCard extends StatelessWidget {
               maxLines: 1,
             ),
             subtitle: AutoSizeText("${vinho.regiao} | ${vinho.tipo} | ${vinho.safra}", maxLines: 1,),
-            trailing: IconButton(
-              icon: Icon(
-                vinho.favorito ? Icons.favorite: Icons.favorite_outline,
-                size: 30,
-                color: Color(0xFFf88a29),
-              ),
-              onPressed: () => onFavorite(),
-            ),
           )
       ),
     );

@@ -8,7 +8,7 @@ class VinhosSQLite{
   }
   Future<void> DBconstructor() async{
     _database = await openDatabase(
-      join(await getDatabasesPath(), 'vinhos_database1.db'),
+      join(await getDatabasesPath(), 'vinhos_database_1_0.db'),
       onCreate: (db, version) {
         return db.execute(
           """CREATE TABLE Vinhos (
@@ -22,8 +22,7 @@ class VinhosSQLite{
                 notaWS TEXT,
                 beberRP TEXT,
                 quantidade INTEGER,
-                etiqueta TEXT,
-                favorito TEXT
+                etiqueta TEXT
             );""",
         );
       },

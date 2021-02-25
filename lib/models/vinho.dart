@@ -10,7 +10,6 @@ class Vinho {
   String beberRP;
   num quantidade;
   String etiqueta;
-  bool favorito;
 
   Vinho({
     id,
@@ -24,7 +23,6 @@ class Vinho {
     this.beberRP = "",
     this.quantidade = 1,
     this.etiqueta,
-    this.favorito = false,
   }){
     _id = id;
     nome = nome[0].toUpperCase() + nome.substring(1);
@@ -53,7 +51,6 @@ class Vinho {
     beberRP = json['beberRP'];
     quantidade = json['quantidade'];
     etiqueta = json['etiqueta'];
-    favorito = json['favorito'] == "true";
     _id = json['id'];
   }
 
@@ -70,7 +67,6 @@ class Vinho {
     data['beberRP'] = this.beberRP;
     data['quantidade'] = this.quantidade;
     data['etiqueta'] = this.etiqueta;
-    data['favorito'] = this.favorito.toString();
     if(this._id != null)
       data['id'] = this._id;
     return data;
