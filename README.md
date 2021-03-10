@@ -13,7 +13,7 @@
 #
 |Visualização|Loading|Adega vazia|
 | --- | --- | --- |
-| ![sample Visualização](https://i.imgur.com/3EOnja4.gif) | ![sample Loading](https://i.imgur.com/idUAgY8.gif) | ![sample Deletar](https://i.imgur.com/DPLsMQ2.gif) |
+| ![sample Visualização](https://i.imgur.com/3EOnja4.gif) | ![sample Loading](https://i.imgur.com/idUAgY8.gif) | ![sample Deletar](https://i.imgur.com/zmLnb9s.png) |
 #
 |Adicionar/Editar|Pesquisar|Deletar|
 | --- | --- | --- |
