@@ -39,7 +39,7 @@ class ListCard extends StatelessWidget {
               TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               maxLines: 1,
             ),
-            subtitle: AutoSizeText("${vinho.regiao} | ${vinho.tipo} | ${vinho.safra}", maxLines: 1,),
+            subtitle: AutoSizeText("${vinho.regiao != "" ? "${vinho.regiao} | " : ""}${vinho.tipo} | ${vinho.safra}", maxLines: 1,),
           )
       ),
     );

@@ -62,6 +62,7 @@ class _InfoModalState extends State<InfoModal> {
                         ),
                         TrasparentIconButton(
                           icon: Icons.delete,
+                          color: Theme.of(context).errorColor,
                           onPressed: (){
                             widget.onDelete(vinho.id);
                           },
@@ -107,7 +108,7 @@ class _InfoModalState extends State<InfoModal> {
               ),
             ),
             subtitle: Text(
-              "${vinho.pais} | ${vinho.regiao}",
+              "${vinho.pais}${vinho.regiao != "" ? " | ${vinho.regiao}" : ""}",
               style: TextStyle(fontSize: 18),
             ),
           ),
@@ -142,7 +143,7 @@ class _InfoModalState extends State<InfoModal> {
             informations: [
               InfoField(
                 label:"Beber R.P.",
-                info: vinho.beberRP,
+                info: vinho.beberRP == "" ? "Não informado" : vinho.beberRP,
               ),
               InfoField(
                 label:"Quantidade",

@@ -98,7 +98,6 @@ class _WineFormState extends State<WineForm> {
                         controller: _nomeController,
                         labelText: "Nome",
                         errorText: "* Por favor informe o nome",
-                        maxLength: 5,
                       ),
                       sizedBoxSpace,
                       AutoCompleteField(
@@ -110,7 +109,6 @@ class _WineFormState extends State<WineForm> {
                       FormTextField(
                         controller: _regiaoController,
                         labelText: "Região de produção",
-                        errorText: "* Por favor informe a região",
                       ),
                       sizedBoxSpace,
                       FormTextField(
