@@ -1,17 +1,2 @@
-# crud_app
-
-A new Flutter application.
-teste
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Wine house
+  Wine house é um aplicativo de cadastro e gerência de vinhos voltado para aqueles que tem uma coleção extensa de garrafas. O aplicativo permite ao usuário cadastrar, excluir e editar vinhos além de também permitir o cadastro de vários vinhos de uma vez só por meio de um arquivo csv e gerar um pdf com um cardápio dos vinhos cadastrados no app (essas duas funcionalidades ainda estão sendo implementadas). Todas essas funcionalidades atuam em conjunto a um design minimalista e simples proporcionando uma experiência agradável e sem maiores dificuldades para o usuário.
