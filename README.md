@@ -12,4 +12,4 @@
   
 |Adicionar/Editar|Pesquisar|Deletar|
 | --- | --- | --- |
-| ![sample V1](https://i.imgur.com/fljvBoP.gif) | ![sample V2](https://i.imgur.com/LaId0uP.gif) | ![sample V2](https://i.imgur.com/DPLsMQ2.gif) |
+| ![sample V1](https://i.imgur.com/OfrEteE.gif) | ![sample V2](https://i.imgur.com/LaId0uP.gif) | ![sample V2](https://i.imgur.com/DPLsMQ2.gif) |
