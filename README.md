@@ -9,3 +9,7 @@
   
 ## Criação do cardápio
   O aplicativo permite ao usuário gerar um pdf com um cardápio dos seus vinhos. O pdf é separado primeiramente por pais e depois por região e no fim de cada região apresenta o total de vinhos daquela região.
+  
+|V1|V2|
+| --- | --- |
+| ![sample V1](https://i.imgur.com/HqV2hRL.gif) | ![sample V2](https://i.imgur.com/2c8aNbY.gif) |
