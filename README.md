@@ -8,12 +8,12 @@
   O aplicativo permitirá que o usuário insira um arquivo csv com vários vinhos para que o usuário possa cadastrá-los todos de uma vez. O arquivo segue o formato de uma coluna para cada dado seguindo a mesma ordem dos campos que aparecem no aplicativo.
   
 ## Criação do cardápio
-  O aplicativo permite ao usuário gerar um pdf com um cardápio dos seus vinhos. O pdf é separado primeiramente por pais e depois por região e no fim de cada região apresenta o total de vinhos daquela região.
+  O aplicativo permitira ao usuário gerar um pdf com um cardápio dos seus vinhos. O pdf é separado primeiramente por pais e depois por região e no fim de cada região apresenta o total de vinhos daquela região.
   
 #
-|Visualização|Loading|Adega vazia|
+|Loading|Lista de vinhos|Informações do vinho|
 | --- | --- | --- |
-| ![sample Visualização](https://i.imgur.com/3EOnja4.gif) | ![sample Loading](https://i.imgur.com/idUAgY8.gif) | ![sample Deletar](https://i.imgur.com/zmLnb9s.png) |
+| ![sample Loading](https://i.imgur.com/idUAgY8.gif) | ![sample Lista de vinhos](https://i.imgur.com/QMhkPo7.gif) | ![sample Informações do vinho](https://i.imgur.com/3EOnja4.gif) |
 #
 |Adicionar/Editar|Pesquisar|Deletar|
 | --- | --- | --- |
